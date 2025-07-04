@@ -1,45 +1,32 @@
-# @file Conversor de unidades - vPython.
-# @brief Conversor entre diversos tipos de unidades y escalas como 
+# @file main.py
+# @brief Conversor entre diversos tipos de unidades y escalas como temperatura, longitud, masa, etc.
 # @author Alejandro Cortés
-# @version 0.1
+# @version 0.2
 
-#region Importaciones
+#region -------------------------Importaciones-------------------------
 import sys
 import os
-from enum import Enum, auto
 from colorama import Fore, Style, init
 #endregion
 
-#region Variables globales e inicializaciones
+#region --------------------Variables globales e inicializaciones--------------------
 ui_mode = False # False para edicion consola/terminal, True para edicion CTK
-class ConversionSystems(Enum):
-    TEMPERATURA = auto()
-    LONGITUD    = auto()
-    MASA        = auto()
-    VOLUMEN     = auto()
-    ENERGIA     = auto()
-    AREA        = auto()
-    VELOCIDAD   = auto()
-    TIEMPO      = auto()
-    POTENCIA    = auto()
-    ANGULOS     = auto()
-    PRESION     = auto()
-    DATOS       = auto()
-
-init(autoreset=True)
-BOLD = Style.BRIGHT
+init(autoreset=True) #Inicializar colorama
+BOLD = Style.BRIGHT #Atajo para negritas
 #endregion
 
-#$ Funciones
+# -------------------------Funciones de utilidad-------------------------
 
-def main():
-    #set_ui_mode() # !SOLO PARA PRUEBAS
-    if ui_mode:
-        print(f"{Fore.GREEN}{BOLD}inicializar CTK, aun pendiente")
+def _clear_console():
+    if os.name == 'nt':
+        os.system('cls')
     else:
-        show_terminal_ui()
+        os.system('clear')
 
-def set_ui_mode():
+def _enter_to_continue():
+    input(f"{Fore.YELLOW}Presione enter para continuar...\n")
+
+def _set_ui_mode():
     global ui_mode
     #Establecer modo de GUI
     if len(sys.argv) < 2:
@@ -55,44 +42,30 @@ def set_ui_mode():
             ui_mode = True
         else:
             print(f"{Fore.RED}Argumento invalido!")
-            enter_to_continue()
+            _enter_to_continue()
 
-def show_terminal_ui():
-    #Entrada de sistema de conversion
-    while(True):
-        clear_console()
-        print(f"{Fore.BLUE}{BOLD}Conversor de unidades\n\n")
-        print("Elije tu sistema de conversion:")
-        print("-" * 32)
-        get_enum("ConversionSystems")
-        
-        sistema = input("Que tipo de sistema quieres converitr?: ")
-        
-        if sistema.upper() not in ConversionSystems.__members__:
-            print(f"{Fore.MAGENTA}No es una opcion valida!!")
-            enter_to_continue()
-            continue
-        else:
-            break
-    
-    #Sub menu de 
-    print(sistema)
-
-def get_enum(enum_name):
-    if enum_name == "ConversionSystems":
-        for i in range(1, len(ConversionSystems) + 1):
-            print(f"> {ConversionSystems(i).name}")
+# -------------------------Funcion Principal-------------------------
+def main():
+    #set_ui_mode() # !SOLO PARA PRUEBAS
+    if ui_mode:
+        try:
+            from interfaces import interfaz_ctk
+            #!PENDIENTE
+            print(f"{Fore.GREEN}{BOLD}inicializar CTK, aun pendiente")
+            interfaz_ctk.show_ui()
+        except ImportError:
+            print(f"{Fore.LIGHTRED_EX}No se pudo cargar el modulo!")
+            _enter_to_continue()
     else:
-        print(f"{Fore.MAGENTA}No se encontro la enumeracion\n")
-
-def clear_console():
-    if os.name == 'nt':
-        os.system('cls')
-    else:
-        os.system('clear')
-
-def enter_to_continue():
-    input(f"{Fore.YELLOW}Presione enter para continuar...\n")
+        try:
+            from interfaces import interfaz_terminal
+            interfaz_terminal.show_terminal_ui()
+        except ImportError:
+            print(f"{Fore.LIGHTRED_EX}No se pudo cargar el modulo!")
+            _enter_to_continue()
+        except Exception as e:
+            print(f"{Fore.LIGHTRED_EX}Error inesperado: {e}")
+            _enter_to_continue()
 
 #! SE PUEDEN BORRAR
 def prueba_colores():
@@ -117,7 +90,6 @@ def prueba_colores():
     print(f"{Style.NORMAL}Texto brillo normal")
     print(f"{Style.BRIGHT}Texto brillo brillante")
 
-#Flujo principal
+# -------------------------Flujo principal-------------------------
 if __name__ == "__main__":
     main()
-    #prueba_colores()

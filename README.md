@@ -29,6 +29,11 @@
     $mi = m / 1609.34$
 * **A Millas Náuticas ($NM$):**
     $NM = m / 1852$
+    
+30860000000000000 metros = parsec
+9461000000000000 metros = anio luz
+149597870700 metros = unidad astronomica
+
 
 ### Fórmulas de Conversión de Masa (partiendo de gramos, $g$)
 
