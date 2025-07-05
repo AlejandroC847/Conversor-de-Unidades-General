@@ -1,7 +1,7 @@
 ## @file conversion_logic.py
 # @brief Logica principal de la conversion, realiza los calculos necesarios
 # @author Alejandro Cortés
-# @version 0.2
+# @version 0.3
 
 #region Importaciones
 from enum import Enum, auto
@@ -23,60 +23,34 @@ class ConversionSystems(Enum):
     ANGULOS     = auto()
     PRESION     = auto()
     DATOS       = auto()
+
 init(autoreset=True) #Inicializar colorama
 BOLD = Style.BRIGHT #Atajo para negritas
 
 #endregion
 
-# -------------------------Funciones auxiliares-------------------------
-
-def _enter_to_continue():
-    input(f"{Fore.YELLOW}Presione enter para continuar...\n")
-
-def get_system_name_by_value(value: int ) -> str | None:
-    try:
-        return ConversionSystems(value).name
-    except ValueError:
-        print(f"{Fore.LIGHTRED_EX}Ingresaste un valor invalido, el valor debe ser entero dentro del rango")
-        return None
-
-def get_system_value_by_name(name: str) -> int | None:
-    try:
-        if name.upper() in ConversionSystems.__members__:
-            return ConversionSystems[name.upper()].value
-    except ValueError:
-        print(f"{Fore.LIGHTRED_EX}Ingresaste un valor invalido, el valor debe ser un nombre de sistema permitido")
-        return None
-
 # -------------------------Funciones de Conversion-------------------------
 
 def convert_temperature(value:float, from_unit:str, to_unit:str) -> float:
-    from_unit_lower = from_unit.lower()
-    to_unit_lower = to_unit.lower()
     
-    unit = {
-        "celsius" : ("c", "celsius"),
-        "kelvin" : ("k", "kelvin"),
-        "farenheit" : ("f", "farenheit"),
-    }
 
     #region Convert to celsius
-    if from_unit_lower in unit["celsius"]:
+    if from_unit == "celsius":
         value_in_celsius = value
-    elif from_unit_lower in unit["kelvin"]:
+    elif from_unit == "kelvin":
         value_in_celsius = value - 273.15
-    elif from_unit_lower in unit["farenheit"]:
+    elif from_unit == "farenheit":
         value_in_celsius = (value - 32) * 5/9
     else:
         raise ValueError(f"{Fore.MAGENTA}Unidad de entrada invalida: '{from_unit}'.{Style.RESET_ALL}")
     #endregion
     
     #region Convert from celsius
-    if to_unit_lower in unit["celsius"]:
+    if to_unit == "celsius":
             return value_in_celsius
-    elif to_unit_lower in unit["kelvin"]:
+    elif to_unit == "kelvin":
         return value_in_celsius + 273.15
-    elif to_unit_lower in unit["farenheit"]:
+    elif to_unit == "farenheit":
         return (value_in_celsius * (9/5)) + 32
     else:
         raise ValueError(f"{Fore.MAGENTA}Unidad de salida invalida: '{to_unit}'.{Style.RESET_ALL}")
@@ -496,14 +470,3 @@ def convert_data(value:float, from_unit:str, to_unit:str) -> float:
     else:
         raise ValueError(f"{Fore.MAGENTA}Unidad de salida invalida: '{to_unit}'.{Style.RESET_ALL}")
     # endregion
-
-
-
-#---testeo---
-try:
-    print(f"Tu conversion es: {convert_lenght(5, "kg","g")}")
-except ValueError as e:
-    print(f"{Fore.RED}ERROR: {e}")
-finally:
-    print("El programa continua...")
-    _enter_to_continue()

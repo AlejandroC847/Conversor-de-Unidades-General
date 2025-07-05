@@ -1,7 +1,7 @@
 # @file main.py
 # @brief Conversor entre diversos tipos de unidades y escalas como temperatura, longitud, masa, etc.
 # @author Alejandro Cortés
-# @version 0.2
+# @version 0.3
 
 #region -------------------------Importaciones-------------------------
 import sys
@@ -57,15 +57,15 @@ def main():
             print(f"{Fore.LIGHTRED_EX}No se pudo cargar el modulo!")
             _enter_to_continue()
     else:
-        try:
+        #try:
             from interfaces import interfaz_terminal
-            interfaz_terminal.show_terminal_ui()
-        except ImportError:
-            print(f"{Fore.LIGHTRED_EX}No se pudo cargar el modulo!")
-            _enter_to_continue()
-        except Exception as e:
-            print(f"{Fore.LIGHTRED_EX}Error inesperado: {e}")
-            _enter_to_continue()
+            interfaz_terminal.start_interface()
+        # except ImportError as e:
+        #     print(f"{Fore.LIGHTRED_EX}No se pudo cargar el modulo!: {e}")
+        #     _enter_to_continue()
+        # except Exception as e:
+        #     print(f"{Fore.LIGHTRED_EX}Error inesperado: {e}")
+        #     _enter_to_continue()
 
 #! SE PUEDEN BORRAR
 def prueba_colores():
