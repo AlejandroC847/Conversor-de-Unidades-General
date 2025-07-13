@@ -1,7 +1,7 @@
 # @file main.py
 # @brief Conversor entre diversos tipos de unidades y escalas como temperatura, longitud, masa, etc.
 # @author Alejandro Cortés
-# @version 0.3
+# @version 0.5
 
 #region -------------------------Importaciones-------------------------
 import sys
@@ -28,16 +28,18 @@ def _enter_to_continue():
 
 def _set_ui_mode():
     global ui_mode
+    cli = ["0", "TERMINAL", "TER", "T", "FALSE", "CLI"]
+    gui = ["1", "CUSTOMTKINTER", "CTKINTER", "CTK", "C", "TRUE", "GUI"]
     #Establecer modo de GUI
     if len(sys.argv) < 2:
         print(f"{Fore.WHITE}No se proporciono argumento, ejecutando edicion de consola.\n")
-        ui_mode = True
+        ui_mode = False
     else:
         argument = sys.argv[1].upper()
-        if argument == "0" or argument == "TERMINAL" or argument == "T" or argument == "TER" or argument == "FALSE":
+        if argument in cli:
             print("Ejecutando edicion de consola")
             ui_mode = False
-        elif (argument == "1" or argument == "CUSTOMTKINTER" or argument == "CTK" or argument == "CTKINTER" or argument == "True"):
+        elif argument in gui:
             print("Ejecutando edicion de Custom TKinter")
             ui_mode = True
         else:
@@ -46,26 +48,29 @@ def _set_ui_mode():
 
 # -------------------------Funcion Principal-------------------------
 def main():
-    #set_ui_mode() # !SOLO PARA PRUEBAS
+    _set_ui_mode()
     if ui_mode:
         try:
             from interfaces import interfaz_ctk
             #!PENDIENTE
             print(f"{Fore.GREEN}{BOLD}inicializar CTK, aun pendiente")
             interfaz_ctk.show_ui()
-        except ImportError:
-            print(f"{Fore.LIGHTRED_EX}No se pudo cargar el modulo!")
+        except ImportError as e:
+            print(f"{Fore.LIGHTRED_EX}No se pudo cargar el modulo!: {e}")
+            _enter_to_continue()
+        except Exception as e:
+            print(f"{Fore.LIGHTRED_EX}Error inesperado: {e}")
             _enter_to_continue()
     else:
-        #try:
+        try:
             from interfaces import interfaz_terminal
             interfaz_terminal.start_interface()
-        # except ImportError as e:
-        #     print(f"{Fore.LIGHTRED_EX}No se pudo cargar el modulo!: {e}")
-        #     _enter_to_continue()
-        # except Exception as e:
-        #     print(f"{Fore.LIGHTRED_EX}Error inesperado: {e}")
-        #     _enter_to_continue()
+        except ImportError as e:
+            print(f"{Fore.LIGHTRED_EX}No se pudo cargar el modulo!: {e}")
+            _enter_to_continue()
+        except Exception as e:
+            print(f"{Fore.LIGHTRED_EX}Error inesperado: {e}")
+            _enter_to_continue()
 
 #! SE PUEDEN BORRAR
 def prueba_colores():

@@ -1,276 +1,123 @@
-### Fórmulas de Conversión de Temperatura
+# 🚀 Conversor de Unidades General - v0.5
 
-* **De Celsius ($C$) a Kelvin ($K$):**
-    $K = C + 273.15$
-* **De Celsius ($C$) a Fahrenheit ($F$):**
-    $F = (C \times \frac{9}{5}) + 32$
+## 👋 ¡Bienvenido al Conversor de Unidades General\!
 
-### Fórmulas de Conversión de Longitud (partiendo de metros, $m$)
+Desarrollado por Alejandro Cortés, este programa es una herramienta versátil diseñada para simplificar la conversión entre una amplia gama de unidades en diversas categorías.
+Ya sea que necesites convertir longitudes de Angstroms a Parsecs, masas de gramos a libras, o temperaturas de Celsius a Kelvin, este conversor te lo pone fácil.
 
-* **A Angstroms ($Å$):**
-    $Å = m \times 10^{10}$
-* **A Nanómetros ($nm$):**
-    $nm = m \times 10^9$
-* **A Micrones ($\mu m$) / Micrómetros:**
-    $\mu m = m \times 10^6$
-* **A Milímetros ($mm$):**
-    $mm = m \times 1000$
-* **A Centímetros ($cm$):**
-    $cm = m \times 100$
-* **A Kilómetros ($km$):**
-    $km = m / 1000$
-* **A Pulgadas ($in$):**
-    $in = m \times 39.3701$
-* **A Pies ($ft$):**
-    $ft = m \times 3.28084$
-* **A Yardas ($yd$):**
-    $yd = m \times 1.09361$
-* **A Millas ($mi$):**
-    $mi = m / 1609.34$
-* **A Millas Náuticas ($NM$):**
-    $NM = m / 1852$
-    
-30860000000000000 metros = parsec
-9461000000000000 metros = anio luz
-149597870700 metros = unidad astronomica
+El programa está disponible en dos modos de ejecución: una **interfaz de línea de comandos (CLI)** para conversiones rápidas y una **interfaz gráfica de usuario (GUI)** intuitiva construida con `CustomTkinter` para una experiencia más visual.
 
+## ✨ Características Principales
 
-### Fórmulas de Conversión de Masa (partiendo de gramos, $g$)
+  * **Amplia Cobertura de Unidades:** Soporta conversiones en múltiples categorías y sus respectivas unidades.
+  * **Modo CLI:** Realiza conversiones directamente desde tu terminal, ideal para scripts o automatización.
+  * **Modo GUI:** Interfaz gráfica amigable para una interacción visual y sencilla.
+  * **Detección Flexible de Unidades:** Reconoce múltiples alias para cada unidad (ej. "m", "metro", "meter" para metros).
+  * **Resultados Claros:** Muestra las conversiones de forma legible y contextualizada.
 
-* **A Quilates:**
-    $Quilates = g \times 5$
-* **A Miligramos ($mg$):**
-    $mg = g \times 1000$
-* **A Centigramos ($cg$):**
-    $cg = g \times 100$
-* **A Decigramos ($dg$):**
-    $dg = g \times 10$
-* **A Decagramos ($dag$):**
-    $dag = g / 10$
-* **A Hectogramos ($hg$):**
-    $hg = g / 100$
-* **A Kilogramos ($kg$):**
-    $kg = g / 1000$
-* **A Toneladas Métricas ($t$):**
-    $t = g / 1,000,000$
-* **A Onzas ($oz$):**
-    $oz = g / 28.3495$
-* **A Libras ($lb$):**
-    $lb = g / 453.592$
-* **A Piedra ($st$):**
-    $st = g / 6350.29$
-* **A Toneladas Cortas (EEUU, $ton$):**
-    $ton = g / 907185$
-* **A Toneladas Largas (Reino Unido, $LT$):**
-    $LT = g / 1016000$
+## 📦 Categorías de Conversión Soportadas
 
-### Fórmulas de Conversión de Volumen (partiendo de mililitros, $mL$)
+Actualmente, el conversor maneja las siguientes categorías de unidades:
 
-* **A Centímetros Cúbicos ($cm^3$):**
-    $cm^3 = mL$ (1 mL es exactamente 1 $cm^3$)
-* **A Litros ($L$):**
-    $L = mL / 1000$
-* **A Metros Cúbicos ($m^3$):**
-    $m^3 = mL / 1,000,000$
-* **A Cucharaditas (EEUU, $tsp$):**
-    $tsp = mL / 4.92892$
-* **A Cucharadas (EEUU, $tbsp$):**
-    $tbsp = mL / 14.7868$
-* **A Onzas Líquidas (EEUU, $fl \, oz$):**
-    $fl \, oz = mL / 29.5735$
-* **A Tazas (EEUU, $cup$):**
-    $cup = mL / 236.588$
-* **A Pintas (EEUU, $pt$):**
-    $pt = mL / 473.176$
-* **A Cuartos de Galón (EEUU, $qt$):**
-    $qt = mL / 946.353$
-* **A Galones (EEUU, $gal$):**
-    $gal = mL / 3785.41$
-* **A Pulgadas Cúbicas ($in^3$):**
-    $in^3 = mL / 16.3871$
-* **A Pies Cúbicos ($ft^3$):**
-    $ft^3 = mL / 28316.8$
-* **A Yardas Cúbicas ($yd^3$):**
-    $yd^3 = mL / 764555$
-* **A Cucharaditas (Reino Unido, $tsp_{UK}$):**
-    $tsp_{UK} = mL / 5.91939$
-* **A Cucharadas (Reino Unido, $tbsp_{UK}$):**
-    $tbsp_{UK} = mL / 17.7582$
-* **A Onzas Líquidas (Reino Unido, $fl \, oz_{UK}$):**
-    $fl \, oz_{UK} = mL / 28.4131$
-* **A Pintas (Reino Unido, $pt_{UK}$):**
-    $pt_{UK} = mL / 568.261$
-* **A Cuartos de Galón (Reino Unido, $qt_{UK}$):**
-    $qt_{UK} = mL / 1136.52$
-* **A Galones (Reino Unido, $gal_{UK}$):**
-    $gal_{UK} = mL / 4546.09$
+  * **TEMPERATURA:** Celsius, Kelvin, Fahrenheit.
+  * **LONGITUD:** Angstroms, Nanómetros, Micrones, Milímetros, Centímetros, Metros, Kilómetros, Pulgadas, Pies, Yardas, Millas, Millas Náuticas, Unidades Astronómicas, Años Luz, Parsecs.
+  * **MASA:** Gramos, Quilates, Miligramos, Centigramos, Decigramos, Decagramos, Hectogramos, Kilogramos, Toneladas Métricas, Onzas, Libras, Piedra, Toneladas Cortas (EEUU), Toneladas Largas (Reino Unido).
+  * **VOLUMEN:** Mililitros, Centímetros Cúbicos, Litros, Metros Cúbicos, Cucharaditas (US/UK), Cucharadas (US/UK), Onzas Líquidas (US/UK), Tazas (US), Pintas (US/UK), Cuartos de Galón (US/UK), Galones (US/UK), Pulgadas Cúbicas, Pies Cúbicos, Yardas Cúbicas.
+  * **ENERGÍA:** Joules, Kilojulios, Calorías Termales, Calorías de Alimentos, Pie-Libras, Unidades Térmicas Británicas, Kilovatio-Horas.
+  * **ÁREA:** Milímetros Cuadrados, Centímetros Cuadrados, Metros Cuadrados, Hectáreas, Kilómetros Cuadrados, Pulgadas Cuadradas, Pies Cuadrados, Yardas Cuadradas, Acres, Millas Cuadradas.
+  * **VELOCIDAD:** Centímetros por Segundo, Metros por Segundo, Kilómetros por Hora, Pies por Segundo, Millas por Hora, Nudos, Mach.
+  * **TIEMPO:** Microsegundos, Milisegundos, Segundos, Minutos, Horas, Días, Semanas, Años.
+  * **POTENCIA:** Vatios, Kilovatios, Caballos de Fuerza (EEUU), Pie-Libras/Minuto, Unidades Térmicas Británicas/Minuto.
+  * **ÁNGULOS:** Grados, Radianes, Grados Centesimales.
+  * **PRESIÓN:** Atmósferas, Bares, Kilopascales, Milímetros de Mercurio, Pascales, Libras por Pulgada Cuadrada.
+  * **DATOS:** Bits, Cuarteto (Nibble), Byte, Kilobit, Kibibit, Kilobyte, Kibibyte, Megabit, Mebibit, Megabyte, Mebibyte, Gigabit, Gibibit, Gigabyte, Gibibyte, Terabit, Tebibit, Terabyte, Tebibyte, Petabit, Pebibit, Petabyte, Pebibyte, Exabit, Exbibit, Exabyte, Exbibyte, Zettabit, Zebibit, Zettabyte, Zebibyte, Yottabit, Yobibit, Yottabyte, Yobibyte.
 
-### Fórmulas de Conversión de Energía (partiendo de Joules, $J$)
+## 🛠️ Instalación
 
-* **A Kilojulios ($kJ$):**
-    $kJ = J / 1000$
-* **A Calorías Termales ($cal$):**
-    $cal = J / 4.184$
-* **A Calorías de Alimentos ($Cal$ o $kcal$):**
-    $Cal = J / 4184$
-* **A Pie-Libras ($ft \cdot lb$):**
-    $ft \cdot lb = J / 1.35582$
-* **A Unidades Térmicas Británicas ($BTU$):**
-    $BTU = J / 1055.06$
-* **A Kilovatio-Horas ($kWh$):**
-    $kWh = J / 3,600,000$
+Para ejecutar este programa, necesitarás Python 3.x instalado.
 
-### Fórmulas de Conversión de Área (partiendo de milímetros cuadrados, $mm^2$)
+1.  **Clona este repositorio:**
+    ```bash
+    git clone https://github.com/tu_usuario/tu_repositorio.git
+    cd tu_repositorio
+    ```
+    O descargalo manualmente.
+2.  **Instala las dependencias necesarias:**
+    ```bash
+    pip install colorama customtkinter pillow
+    ```
+    O en caso de encontrarse en la carpeta de proyecto:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-* **A Centímetros Cuadrados ($cm^2$):**
-    $cm^2 = mm^2 / 100$
-* **A Metros Cuadrados ($m^2$):**
-    $m^2 = mm^2 / 1,000,000$
-* **A Hectáreas ($ha$):**
-    $ha = mm^2 / 10,000,000,000$
-* **A Kilómetros Cuadrados ($km^2$):**
-    $km^2 = mm^2 / 1,000,000,000,000$
-* **A Pulgadas Cuadradas ($in^2$):**
-    $in^2 = mm^2 / 645.16$
-* **A Pies Cuadrados ($ft^2$):**
-    $ft^2 = mm^2 / 92903$
-* **A Yardas Cuadradas ($yd^2$):**
-    $yd^2 = mm^2 / 836127$
-* **A Acres ($ac$):**
-    $ac = mm^2 / 4,046,856,422.4$
-* **A Millas Cuadradas ($mi^2$):**
-    $mi^2 = mm^2 / 2,589,988,110,336$
+## 🚀 Uso
 
-### Fórmulas de Conversión de Velocidad (partiendo de centímetros por segundo, $cm/s$)
+### Modo CLI (Consola/Terminal)
 
-* **A Metros por Segundo ($m/s$):**
-    $m/s = (cm/s) / 100$
-* **A Kilómetros por Hora ($km/h$):**
-    $km/h = (cm/s) \times 0.036$
-* **A Pies por Segundo ($ft/s$):**
-    $ft/s = (cm/s) / 30.48$
-* **A Millas por Hora ($mph$):**
-    $mph = (cm/s) / 44.704$
-* **A Nudos ($kn$):**
-    $kn = (cm/s) / 51.4444$
-* **A Mach ($Ma$):**
-    $Ma = (cm/s) / 34029$ (considerando Mach 1 = 340.29 m/s a nivel del mar y 15°C)
+Para usar la calculadora en modo terminal, ejecuta el script de la siguiente manera:
 
-### Fórmulas de Conversión de Tiempo (partiendo de microsegundos, $\mu s$)
+```bash
+python main.py cli #Tambien cuenta con alias como Terminal o T
+```
+En caso de no proporcionar un argumento, esta será la opción por defecto.
 
-* **A Milisegundos ($ms$):**
-    $ms = \mu s / 1000$
-* **A Segundos ($s$):**
-    $s = \mu s / 1,000,000$
-* **A Minutos ($min$):**
-    $min = \mu s / 60,000,000$
-* **A Horas ($h$):**
-    $h = \mu s / 3,600,000,000$
-* **A Días ($d$):**
-    $d = \mu s / 86,400,000,000$
-* **A Semanas ($wk$):**
-    $wk = \mu s / 604,800,000,000$
-* **A Años ($yr$):**
-    $yr = \mu s / 31,536,000,000,000$ (año de 365 días)
+Una vez iniciado, el programa te guiará:
 
-### Fórmulas de Conversión de Potencia (partiendo de Vatios, $W$)
+1.  Selecciona la **categoría** de unidad que deseas convertir (ej., `LONGITUD`, `TEMPERATURA`).
+2.  Indica la **unidad de entrada**, el **valor** y la **unidad de salida** uno tras otro.
 
-* **A Kilovatios ($kW$):**
-    $kW = W / 1000$
-* **A Caballos de Fuerza (EEUU, $hp$):**
-    $hp = W / 745.7$
-* **A Pie-Libras/Minuto ($ft \cdot lb/min$):**
-    $ft \cdot lb/min = W \times 44.2537$
-* **A Unidades Térmicas Británicas/Minuto ($BTU/min$):**
-    $BTU/min = W \times 0.056869$
+El programa devolverá la conversión:
 
-### Fórmulas de Conversión de Ángulos (partiendo de Grados, $\circ$)
+```
+>> 5.0 celsius equivalen a 278.15 kelvin.
+```
 
-* **A Radianes ($rad$):**
-    $rad = Grados \times (\pi / 180)$
-* **A Grados Centesimales ($gon$ o $grad$):**
-    $gon = Grados \times (200 / 180)$
+### Modo GUI (Ventana Gráfica)
 
-### Fórmulas de Conversión de Presión (partiendo de Atmósferas, $atm$)
+Para usar la calculadora con la interfaz gráfica, ejecuta:
 
-* **A Bares ($bar$):**
-    $bar = atm \times 1.01325$
-* **A Kilopascales ($kPa$):**
-    $kPa = atm \times 101.325$
-* **A Milímetros de Mercurio ($mmHg$ o $Torr$):**
-    $mmHg = atm \times 760$
-* **A Pascales ($Pa$):**
-    $Pa = atm \times 101325$
-* **A Libras por Pulgada Cuadrada ($psi$):**
-    $psi = atm \times 14.6959$
+```bash
+python main.py gui #Tambien cuenta con alias como CTK o Custom TKinter
+```
 
-### Fórmulas de Conversión de Datos (partiendo de Bits, $bit$)
+Se abrirá una ventana donde podrás seleccionar las unidades de entrada y salida, ingresar el valor y ver el resultado de forma interactiva.
 
-* **A Cuarteto (Nibble):**
-    $Cuarteto = bit / 4$
-* **A Byte ($B$):**
-    $B = bit / 8$
-* **A Kilobit ($kb$):**
-    $kb = bit / 1000$
-* **A Kibibit ($Kib$):**
-    $Kib = bit / 1024$
-* **A Kilobyte ($KB$):**
-    $KB = bit / 8000$
-* **A Kibibyte ($KiB$):**
-    $KiB = bit / 8192$
-* **A Megabit ($Mb$):**
-    $Mb = bit / 1,000,000$
-* **A Mebibit ($Mib$):**
-    $Mib = bit / 1,048,576$
-* **A Megabyte ($MB$):**
-    $MB = bit / 8,000,000$
-* **A Mebibyte ($MiB$):**
-    $MiB = bit / 8,388,608$
-* **A Gigabit ($Gb$):**
-    $Gb = bit / 1,000,000,000$
-* **A Gibibit ($Gib$):**
-    $Gib = bit / 1,073,741,824$
-* **A Gigabyte ($GB$):**
-    $GB = bit / 8,000,000,000$
-* **A Gibibyte ($GiB$):**
-    $GiB = bit / 8,589,934,592$
-* **A Terabit ($Tb$):**
-    $Tb = bit / 1,000,000,000,000$
-* **A Tebibit ($Tib$):**
-    $Tib = bit / 1,099,511,627,776$
-* **A Terabyte ($TB$):**
-    $TB = bit / 8,000,000,000,000$
-* **A Tebibyte ($TiB$):**
-    $TiB = bit / 8,796,093,022,208$
-* **A Petabit ($Pb$):**
-    $Pb = bit / 1,000,000,000,000,000$
-* **A Pebibit ($Pib$):**
-    $Pib = bit / 1,125,899,906,842,624$
-* **A Petabyte ($PB$):**
-    $PB = bit / 8,000,000,000,000,000$
-* **A Pebibyte ($PiB$):**
-    $PiB = bit / 9,007,199,254,740,992$
-* **A Exabit ($Eb$):**
-    $Eb = bit / 1,000,000,000,000,000,000$
-* **A Exbibit ($Eib$):**
-    $Eib = bit / 1,152,921,504,606,846,976$
-* **A Exabyte ($EB$):**
-    $EB = bit / 8,000,000,000,000,000,000$
-* **A Exbibyte ($EiB$):**
-    $EiB = bit / 9,223,372,036,854,775,808$
-* **A Zettabit ($Zb$):**
-    $Zb = bit / 1,000,000,000,000,000,000,000$
-* **A Zebibit ($Zib$):**
-    $Zib = bit / 1,180,591,620,717,411,303,424$
-* **A Zettabyte ($ZB$):**
-    $ZB = bit / 8,000,000,000,000,000,000,000$
-* **A Zebibyte ($ZiB$):**
-    $ZiB = bit / 9,444,732,965,732,923,457,740,000$
-* **A Yottabit ($Yb$):**
-    $Yb = bit / 1,000,000,000,000,000,000,000,000$
-* **A Yobibit ($Yib$):**
-    $Yib = bit / 1,208,925,819,614,629,174,706,176$
-* **A Yottabyte ($YB$):**
-    $YB = bit / 8,000,000,000,000,000,000,000,000$
-* **A Yobibyte ($YiB$):**
-    $YiB = bit / 9,671,406,556,917,033,397,649,408$
+## 💡 Sugerencias y Contribuciones
+
+Este proyecto está en la versión 0.5, lo que significa que aún hay mucho espacio para mejoras y nuevas funcionalidades. ¡Toda retroalimentación, informes de errores y contribuciones son bienvenidos\!
+
+Si deseas contribuir:
+
+1.  Haz un "fork" del repositorio.
+2.  Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
+3.  Realiza tus cambios y haz "commit" de ellos (`git commit -m 'feat: Añadir nueva funcionalidad X'`).
+4.  Sube tus cambios (`git push origin feature/nueva-funcionalidad`).
+5.  Abre un "Pull Request".
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
+
+-----
+
+### 🤔 Retroalimentación y Sugerencias Adicionales:
+
+¡Hola, Alejandro\! Tu proyecto suena muy útil y la organización que le estás dando es excelente. Aquí tienes algunas preguntas y sugerencias que podrían complementar tu `README.md` o mejorar el proyecto en sí:
+
+#### Para el `README.md`:
+
+1.  **Capturas de Pantalla (Screenshots):** Para el modo GUI, ¡unas capturas de pantalla harían que tu `README` sea mucho más atractivo\! Un usuario potencial podrá ver inmediatamente cómo se ve y funciona tu interfaz.
+2.  **Sección de Contacto:** ¿Cómo pueden contactarte los usuarios o colaboradores? Un correo electrónico o tu perfil de LinkedIn/Twitter podría ser útil.
+3.  **Roadmap (Hoja de Ruta):** Si tienes planes futuros para el proyecto (ej., añadir más unidades, nuevas categorías, soporte para otras unidades compuestas como m/s² para aceleración), puedes incluir una pequeña sección de "Roadmap" para que los interesados sepan qué esperar.
+4.  **Agradecimientos (Acknowledgements):** Si usaste recursos específicos, librerías que no sean las obvias, o si alguien te ayudó, una sección de agradecimientos es un buen detalle.
+
+#### Para el Proyecto en Sí:
+
+1.  **Consistencia en Nomenclatura de Unidades:** Es genial que manejes aliases. Asegúrate de que tus factores de conversión (`conversion_to_meters`, etc.) estén basados en nombres de unidades consistentes (ej., `milimetros_cuadrados` para la clave principal, y `mm2`, `mm^2`, etc., como aliases). Tu estructura actual de diccionarios es muy buena para esto.
+2.  **Manejo de Errores Más Robusto en CLI:** Actualmente, el `print` y `_enter_to_continue()` no lanzan una excepción que detenga el flujo. Si el usuario ingresa una unidad inválida, quizás quieras:
+      * Volver a pedir la entrada hasta que sea válida.
+      * Lanzar una excepción (como ya lo hicimos en el ejemplo de la función `convert_lenght`) para que el programa maneje el error de forma más estructurada.
+3.  **Unidades Compuestas:** ¿Considerarías unidades compuestas en el futuro, como densidad (kg/m³) o unidades de aceleración (m/s²)? Eso podría llevar tu conversor a otro nivel de complejidad, pero también de utilidad.
+4.  **Archivos de Configuración/Datos:** Si tus listas de unidades y sus factores de conversión crecen mucho, podrías considerar moverlos a archivos externos (ej. JSON, YAML) que el programa lea al inicio. Esto facilita la edición de unidades sin tocar el código Python principal.
+5.  **Pruebas Unitarias:** A medida que tu proyecto crece, las pruebas unitarias (`unittest` o `pytest`) son fundamentales. Te asegurarían que todas tus conversiones son correctas y que los cambios futuros no introducen errores.
