@@ -72,7 +72,7 @@ def get_data(system, units):
         
         i=1
         for unit in units:
-            print(f"{Fore.CYAN}{i}. {str(unit)}")
+            print(f"{Fore.CYAN}{i}. {str(unit).replace("_", " ").title()}")
             i+=1
         print(f"{Fore.CYAN}0. Volver al menu principal")
         
