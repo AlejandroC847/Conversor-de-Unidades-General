@@ -55,7 +55,6 @@ def _enter_to_continue():
 def _show_system_menu():
     _clear_console()
     print(f"{Fore.BLUE}{BOLD}----------Conversor de Unidades----------")
-    print("-" * 40)
     for system in ConversionSystems:
         #Obtiene numero de sistema, nombre, y lo muestra solo con inicial en mayuscula
         print(f"{Fore.CYAN}{system.value}. {system.name.replace("_", " ").title()}")       
@@ -144,7 +143,7 @@ def convert_lenght_interface():
         "micrones" : ("3", "µm", "um", "micrometro", "micrometros", "micron", "microns", "micrometer", "micrometers"),
         "milimetros" : ("4", "mm", "milimetro", "milimetros", "millimeter", "millimeters"),
         "centimetros" : ("5", "cm", "centimetro", "centimetros", "centimeter", "centimeters"),
-        "metros" : ("6", "m", "metro", "meter"),
+        "metros" : ("6", "m", "metro", "meter", "metros", "meters"),
         "kilometros" : ("7", "km", "kilometro", "kilometros", "kilometer", "kilometers"),
         "pulgadas" : ("8", "in", "pulgada", "pulgadas", "inch", "inches"),
         "pies" : ("9", "ft", "pie", "pies", "foot", "feet"),
@@ -443,6 +442,7 @@ def start_interface():
                     system_number +=1
             if chosen_system is None:
                 print(f"{Fore.MAGENTA}No es una opcion valida!!")
+                _enter_to_continue()
                 continue
             
         print(f"Se eligio el sistema: {ConversionSystems(chosen_system).name}...") #Se quita rapidamente

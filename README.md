@@ -64,14 +64,17 @@ En caso de no proporcionar un argumento, esta será la opción por defecto.
 
 Una vez iniciado, el programa te guiará:
 
-1.  Selecciona la **categoría** de unidad que deseas convertir (ej., `LONGITUD`, `TEMPERATURA`).
-2.  Indica la **unidad de entrada**, el **valor** y la **unidad de salida** uno tras otro.
+1.  Selecciona la **categoría** de unidad que deseas convertir (ej., `LONGITUD`, `TEMPERATURA`). El sistema soporta errores al colocar tu opción.
+![Menú Principal de la Consola](assets/CLI%20-%20Menu%20principal.png)
 
-El programa devolverá la conversión:
 
-```
->> 5.0 celsius equivalen a 278.15 kelvin.
-```
+2.  Indica la **unidad de entrada**, el **valor** y la **unidad de salida** uno tras otro. Puedes usar alias en los sistemas, o su número en la lista.
+
+El programa devolverá la conversión correspondiente:
+![Conversión correcta de LONGITUD](assets/CLI%20-%20SubMenu%20Ej.1.png)
+
+También puede manejar errores de entrada del usuario:
+![Conversión fallida de VOLUMEN](assets/CLI%20-%20SubMenu%20Ej.2.png)
 
 ### Modo GUI (Ventana Gráfica)
 
@@ -99,25 +102,13 @@ Si deseas contribuir:
 
 Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
 
------
+## ✉️ Contacto
 
-### 🤔 Retroalimentación y Sugerencias Adicionales:
+¿Tienes preguntas, sugerencias, quieres ver mis otros proyectos o simplemente quieres saludar? ¡No dudes en contactarme y acceder a mis redes!
 
-¡Hola, Alejandro\! Tu proyecto suena muy útil y la organización que le estás dando es excelente. Aquí tienes algunas preguntas y sugerencias que podrían complementar tu `README.md` o mejorar el proyecto en sí:
+* **Correo Electrónico:** Puedes enviarme un mensaje directamente [aquí](mailto:alejandrocortes847@gmail.com).
+* **Issue:** Abre un [Issue](https://github.com/AlejandroC847/Conversor-de-Unidades-General/issues) de este repo.
+* **GitHub:** Visita mi perfil de GitHub [aquí](https://github.com/AlejandroC847).
+* **Portafolio (GitHub Pages):** Explora mi trabajo en mi página personal [aquí](https://alejandroc847.github.io).
 
-#### Para el `README.md`:
-
-1.  **Capturas de Pantalla (Screenshots):** Para el modo GUI, ¡unas capturas de pantalla harían que tu `README` sea mucho más atractivo\! Un usuario potencial podrá ver inmediatamente cómo se ve y funciona tu interfaz.
-2.  **Sección de Contacto:** ¿Cómo pueden contactarte los usuarios o colaboradores? Un correo electrónico o tu perfil de LinkedIn/Twitter podría ser útil.
-3.  **Roadmap (Hoja de Ruta):** Si tienes planes futuros para el proyecto (ej., añadir más unidades, nuevas categorías, soporte para otras unidades compuestas como m/s² para aceleración), puedes incluir una pequeña sección de "Roadmap" para que los interesados sepan qué esperar.
-4.  **Agradecimientos (Acknowledgements):** Si usaste recursos específicos, librerías que no sean las obvias, o si alguien te ayudó, una sección de agradecimientos es un buen detalle.
-
-#### Para el Proyecto en Sí:
-
-1.  **Consistencia en Nomenclatura de Unidades:** Es genial que manejes aliases. Asegúrate de que tus factores de conversión (`conversion_to_meters`, etc.) estén basados en nombres de unidades consistentes (ej., `milimetros_cuadrados` para la clave principal, y `mm2`, `mm^2`, etc., como aliases). Tu estructura actual de diccionarios es muy buena para esto.
-2.  **Manejo de Errores Más Robusto en CLI:** Actualmente, el `print` y `_enter_to_continue()` no lanzan una excepción que detenga el flujo. Si el usuario ingresa una unidad inválida, quizás quieras:
-      * Volver a pedir la entrada hasta que sea válida.
-      * Lanzar una excepción (como ya lo hicimos en el ejemplo de la función `convert_lenght`) para que el programa maneje el error de forma más estructurada.
-3.  **Unidades Compuestas:** ¿Considerarías unidades compuestas en el futuro, como densidad (kg/m³) o unidades de aceleración (m/s²)? Eso podría llevar tu conversor a otro nivel de complejidad, pero también de utilidad.
-4.  **Archivos de Configuración/Datos:** Si tus listas de unidades y sus factores de conversión crecen mucho, podrías considerar moverlos a archivos externos (ej. JSON, YAML) que el programa lea al inicio. Esto facilita la edición de unidades sin tocar el código Python principal.
-5.  **Pruebas Unitarias:** A medida que tu proyecto crece, las pruebas unitarias (`unittest` o `pytest`) son fundamentales. Te asegurarían que todas tus conversiones son correctas y que los cambios futuros no introducen errores.
+---
