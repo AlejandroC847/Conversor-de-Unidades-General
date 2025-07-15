@@ -1,7 +1,7 @@
 # @file interfaz_terminal.py
 # @brief Interfaz de Usuario para modo de consola, se basa en prints para mostrar contenido
 # @author Alejandro Cortés
-# @version 0.5
+# @version 0.6
 
 #region Importaciones
 import os

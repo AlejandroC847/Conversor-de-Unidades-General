@@ -1,7 +1,7 @@
 # @file main.py
 # @brief Conversor entre diversos tipos de unidades y escalas como temperatura, longitud, masa, etc.
 # @author Alejandro Cortés
-# @version 0.5
+# @version 0.6
 
 #region -------------------------Importaciones-------------------------
 import sys
@@ -52,9 +52,8 @@ def main():
     if ui_mode:
         try:
             from interfaces import interfaz_ctk
-            #!PENDIENTE
             print(f"{Fore.GREEN}{BOLD}inicializar CTK, aun pendiente")
-            interfaz_ctk.show_ui()
+            interfaz_ctk.start_interface()
         except ImportError as e:
             print(f"{Fore.LIGHTRED_EX}No se pudo cargar el modulo!: {e}")
             _enter_to_continue()

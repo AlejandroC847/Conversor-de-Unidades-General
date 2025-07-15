@@ -1,7 +1,7 @@
 # @file conversion_logic.py
 # @brief Logica principal de la conversion, realiza los calculos necesarios
 # @author Alejandro Cortés
-# @version 0.5
+# @version 0.6
 
 #region Importaciones
 from colorama import Fore, Style, init
