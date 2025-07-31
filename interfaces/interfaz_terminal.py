@@ -1,7 +1,7 @@
 # @file interfaz_terminal.py
 # @brief Interfaz de Usuario para modo de consola, se basa en prints para mostrar contenido
 # @author Alejandro Cortés
-# @version 0.6
+# @version 0.7
 
 #region Importaciones
 import os
@@ -9,7 +9,7 @@ from colorama import Fore, Style, init
 from enum import Enum, auto
 from logic.conversion_logic import (
     convert_temperature,
-    convert_lenght,
+    convert_length,
     convert_mass,
     convert_volume,
     convert_energy,
@@ -157,7 +157,7 @@ def convert_lenght_interface():
     
     result = get_data(SYSTEM, units)
     if result is not None:
-        converted_value = convert_lenght(result[0], result[1], result[2])
+        converted_value = convert_length(result[0], result[1], result[2])
     else:
         return None
 
@@ -505,3 +505,5 @@ def start_interface():
     _enter_to_continue()
     return
 
+if __name__ == "__main__":
+    start_interface()

@@ -1,7 +1,7 @@
 # @file conversion_logic.py
 # @brief Logica principal de la conversion, realiza los calculos necesarios
 # @author Alejandro Cortés
-# @version 0.6
+# @version 0.7
 
 #region Importaciones
 from colorama import Fore, Style, init
@@ -39,7 +39,7 @@ def convert_temperature(value:float, from_unit:str, to_unit:str) -> float:
         raise ValueError(f"{Fore.MAGENTA}Unidad de salida invalida: '{to_unit}'.{Style.RESET_ALL}")
     #endregion
 
-def convert_lenght(value:float, from_unit:str, to_unit:str) -> float:
+def convert_length(value:float, from_unit:str, to_unit:str) -> float:
     #region Convert to meters
     if from_unit == "angstroms":
         value_in_meters = value / 1e10
@@ -133,7 +133,7 @@ def convert_mass(value:float, from_unit:str, to_unit:str) -> float:
     elif from_unit == "onzas":
         value_in_grams = value * 28.3495
     elif from_unit == "libras":
-        value_in_gram,s = value * 453.592
+        value_in_grams = value * 453.592
     elif from_unit == "piedra":
         value_in_grams = value * 6350.29
     elif from_unit == "toneladas_cortas_eeuu":

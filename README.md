@@ -1,4 +1,4 @@
-# 🚀 Conversor de Unidades General - v0.6
+# 🚀 Conversor de Unidades General - v0.7
 
 ## 👋 ¡Bienvenido al Conversor de Unidades General\!
 
@@ -88,7 +88,7 @@ Se abrirá una ventana donde podrás seleccionar las unidades de entrada y salid
 
 ## 💡 Sugerencias y Contribuciones
 
-Este proyecto está en la versión 0.6, lo que significa que aún hay mucho espacio para mejoras y nuevas funcionalidades. ¡Toda retroalimentación, informes de errores y contribuciones son bienvenidos\!
+Este proyecto está en la versión 0.7, lo que significa que aún hay mucho espacio para mejoras y nuevas funcionalidades. ¡Toda retroalimentación, informes de errores y contribuciones son bienvenidos\!
 
 Si deseas contribuir:
 
