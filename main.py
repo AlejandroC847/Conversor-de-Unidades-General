@@ -1,70 +1,116 @@
-# @file main.py
-# @brief Conversor entre diversos tipos de unidades y escalas como temperatura, longitud, masa, etc.
-# @author Alejandro Cortés
-# @version 0.7
+"""
+main.py
 
-#region -------------------------Importaciones-------------------------
+Aplicación para convertir valores entre diferentes unidades
+de medida (temperatura, longitud, masa, entre otros).
+
+Autor: Alejandro Cortés
+Versión: 1.0
+"""
+
+
+# ────────────────────── IMPORTACIONES ──────────────────────
 import sys
+import logging
+
 from colorama import Fore, Style, init
-#endregion
 
-#region --------------------Variables globales e inicializaciones--------------------
-ui_mode = False # False para edicion consola/terminal, True para edicion CTK
-init(autoreset=True) #Inicializar colorama
-BOLD = Style.BRIGHT #Atajo para negritas
-#endregion
 
-#region -------------------------Funciones de utilidad-------------------------
-def _enter_to_continue():
+# ────────────────────── VARIABLES GLOBALES / CONFIGURACION ──────────────────────
+init(autoreset=True)    # Inicializa Colorama con autoreset en cada impresión
+BOLD = Style.BRIGHT     # Atajo para aplicar estilo de negritas
+
+
+class ColorFormatter(logging.Formatter):
+    """
+    Formateador de logs que aplica colores según el nivel del mensaje.
+
+    Niveles de color:
+        DEBUG -> Magenta
+        INFO -> Blanco
+        WARNING -> Amarillo
+        ERROR -> Rojo claro
+        CRITICAL -> Rojo brillante (negritas)
+    """
+    COLORS = {
+        logging.DEBUG: Fore.MAGENTA,
+        logging.INFO: Fore.WHITE,
+        logging.WARNING: Fore.YELLOW,
+        logging.ERROR: Fore.LIGHTRED_EX,
+        logging.CRITICAL: Fore.RED + BOLD,
+    }
+
+    def format(self, record):
+        color = self.COLORS.get(record.levelno, "")
+        message = super().format(record)
+        return f"{color}{message}{Style.RESET_ALL}"
+
+
+# Configuración del logger
+logger = logging.getLogger("conversor")
+logger.setLevel(logging.DEBUG)
+handler = logging.StreamHandler()
+formatter = ColorFormatter("%(levelname)s: %(message)s")
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
+# ────────────────────── FUNCIONES AUXILIARES ──────────────────────
+def _enter_to_continue() -> None:
+    """Pausa la ejecución hasta que el usuario presione Enter."""
     input(f"{Fore.YELLOW}Presione enter para continuar...\n")
 
-def _set_ui_mode():
-    global ui_mode
-    cli = ["0", "TERMINAL", "TER", "T", "FALSE", "CLI"]
-    gui = ["1", "CUSTOMTKINTER", "CTKINTER", "CTK", "C", "TRUE", "GUI"]
-    #Establecer modo de GUI
+
+def _get_ui_mode() -> bool:
+    """
+    Determina el modo de interfaz a usar (CLI o GUI) según argumentos por consola.
+    Si no se pasa argumento, se asume GUI.
+    """
+    cli_args = ["0", "TERMINAL", "TER", "T", "FALSE", "CLI"]
+    gui_args = ["1", "CUSTOMTKINTER", "CTKINTER", "CTK", "C", "TRUE", "GUI"]
+
     if len(sys.argv) < 2:
-        print(f"{Fore.WHITE}No se proporciono argumento, ejecutando GUI.\n")
-        ui_mode = True
+        logger.info("No se proporcionó argumento. Ejecutando en modo GUI.")
+        return True
+
+    argument = sys.argv[1].strip().upper()
+    if argument in cli_args:
+        return False
+    elif argument in gui_args:
+        return True
     else:
-        argument = sys.argv[1].upper()
-        if argument in cli:
-            #print("Ejecutando edicion de consola")
-            ui_mode = False
-        elif argument in gui:
-            #print("Ejecutando edicion de Custom TKinter")
-            ui_mode = True
+        logger.error("¡Argumento inválido!")
+        _enter_to_continue()
+        return True  # Valor por defecto en caso de error
+
+
+# ────────────────────── FUNCIÓN PRINCIPAL ──────────────────────
+def main() -> None:
+    """Punto de entrada principal de la aplicación."""
+    ui_mode = _get_ui_mode()
+
+    # pylint: disable=broad-except
+    try:
+        # pylint: disable=import-outside-toplevel
+        if ui_mode:
+            from interfaces.interfaz_ctk import start_interface
         else:
-            print(f"{Fore.RED}Argumento invalido!")
-            _enter_to_continue()
+            from interfaces.interfaz_cli import start_interface
 
-#endregion
+        logger.info(
+            "Inicializando interfaz: %s", 
+            "gráfica (GUI)..." if ui_mode else "de consola (CLI)..."
+        )
+        start_interface()
+    except ImportError as e:
+        logger.error("No se pudo cargar el módulo: %s", e)
+        _enter_to_continue()
+    except KeyboardInterrupt:
+        logger.warning("Ejecución interrumpida por el usuario.")
+    except Exception as e:
+        logger.critical("Error inesperado: %s", e)
+        _enter_to_continue()
 
-# -------------------------Funcion Principal-------------------------
-def main():
-    _set_ui_mode()
-    if ui_mode:
-        try:
-            from interfaces import interfaz_ctk
-            print(f"{Fore.GREEN}{BOLD}Inicializando GUI CTk")
-            interfaz_ctk.start_interface()
-        except ImportError as e:
-            print(f"{Fore.LIGHTRED_EX}No se pudo cargar el modulo!: {e}")
-            _enter_to_continue()
-        except Exception as e:
-            print(f"{Fore.LIGHTRED_EX}Error inesperado: {e}")
-            _enter_to_continue()
-    else:
-        try:
-            from interfaces import interfaz_terminal
-            interfaz_terminal.start_interface()
-        except ImportError as e:
-            print(f"{Fore.LIGHTRED_EX}No se pudo cargar el modulo!: {e}")
-            _enter_to_continue()
-        except Exception as e:
-            print(f"{Fore.LIGHTRED_EX}Error inesperado: {e}")
-            _enter_to_continue()
 
-# -------------------------Flujo principal-------------------------
+# ────────────────────── PUNTO DE EJECUCIÓN ──────────────────────
 if __name__ == "__main__":
     main()

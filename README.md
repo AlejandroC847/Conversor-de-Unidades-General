@@ -1,6 +1,6 @@
-# 🚀 Conversor de Unidades General - v0.7
+# 🚀 Conversor de Unidades General - v1.0
 
-## 👋 ¡Bienvenido al Conversor de Unidades General\!
+## 👋 Bienvenido al Conversor de Unidades General
 
 Desarrollado por Alejandro Cortés, este programa es una herramienta versátil diseñada para simplificar la conversión entre una amplia gama de unidades en diversas categorías.
 Ya sea que necesites convertir longitudes de Angstroms a Parsecs, masas de gramos a libras, o temperaturas de Celsius a Kelvin, este conversor te lo pone fácil.
@@ -34,17 +34,18 @@ Actualmente, el conversor maneja las siguientes categorías de unidades:
 
 ## 🛠️ Instalación
 
-Para ejecutar este programa, necesitarás Python 3.x instalado.
+Para ejecutar este programa, necesitarás Python instalado (Preferentemente Python 3.10+).
 
-1.  **Clona este repositorio:**
+1.  **Obtén los archivos del proyecto:**
+  - Clona este repositorio:
     ```bash
-    git clone https://github.com/tu_usuario/tu_repositorio.git
-    cd tu_repositorio
+    git clone https://github.com/AlejandroC847/Conversor-de-Unidades-General.git
+    cd Conversor-de-Unidades-General
     ```
-    O descargalo manualmente.
+  - O descargalo manualmente. 
 2.  **Instala las dependencias necesarias:**
     ```bash
-    pip install colorama customtkinter pillow
+    pip install colorama customtkinter pillow screeninfo
     ```
     O en caso de encontrarse en la carpeta de proyecto:
     ```bash
@@ -55,26 +56,25 @@ Para ejecutar este programa, necesitarás Python 3.x instalado.
 
 ### Modo CLI (Consola/Terminal)
 
-Para usar la calculadora en modo terminal, ejecuta el script de la siguiente manera:
+Para usar la calculadora en el modo de consola, ejecuta el script de la siguiente manera (desde la raíz del proyecto):
 
 ```bash
 python main.py cli #Tambien cuenta con alias como Terminal o T
 ```
-En caso de no proporcionar un argumento, esta será la opción por defecto.
 
 Una vez iniciado, el programa te guiará:
 
 1.  Selecciona la **categoría** de unidad que deseas convertir (ej., `LONGITUD`, `TEMPERATURA`). El sistema soporta errores al colocar tu opción.
-![Menú Principal de la Consola](assets/CLI%20-%20Menu%20principal.png)
+![CLI - Menú Principal de la Consola](assets/CLI%20-%20Menu%20principal.png)
 
 
 2.  Indica la **unidad de entrada**, el **valor** y la **unidad de salida** uno tras otro. Puedes usar alias en los sistemas, o su número en la lista.
 
 El programa devolverá la conversión correspondiente:
-![Conversión correcta de LONGITUD](assets/CLI%20-%20SubMenu%20Ej.1.png)
+![CLI - Conversión correcta de LONGITUD](assets/CLI%20-%20SubMenu%20Ej.1.png)
 
 También puede manejar errores de entrada del usuario:
-![Conversión fallida de VOLUMEN](assets/CLI%20-%20SubMenu%20Ej.2.png)
+![CLI - Conversión fallida de VOLUMEN](assets/CLI%20-%20SubMenu%20Ej.2.png)
 
 ### Modo GUI (Ventana Gráfica)
 
@@ -84,11 +84,20 @@ Para usar la calculadora con la interfaz gráfica, ejecuta:
 python main.py gui #Tambien cuenta con alias como CTK o Custom TKinter
 ```
 
-Se abrirá una ventana donde podrás seleccionar las unidades de entrada y salida, ingresar el valor y ver el resultado de forma interactiva.
+En caso de no proporcionar un argumento, esta será la opción por defecto.
+
+Se abrirá una ventana donde podrás seleccionar el sistema de conversión que desees. Además, un interruptor ofrece la capacidad de alternar entre tema claro y tema oscuro (por defecto, se muestra el tema del dispositivo).
+
+![GUI - Menú de selección de sistema](assets/GUI%20-%20Menu-Principal.png)
+
+Al seleccionar algún sistema, se abrirá una ventana emergente propia de dicho sistema donde se deberán seleccionar las unidades de entrada y salida e ingresar el valor para poder ver el resultado de forma dinámica.
+![GUI - Menú de selección de sistema](assets/GUI%20-%20Conversor-temperatura.png)
+![GUI - Menú de selección de sistema](assets/GUI%20-%20Conversor-tiempo.png)
+
 
 ## 💡 Sugerencias y Contribuciones
 
-Este proyecto está en la versión 0.7, lo que significa que aún hay mucho espacio para mejoras y nuevas funcionalidades. ¡Toda retroalimentación, informes de errores y contribuciones son bienvenidos\!
+Este proyecto está en la versión 1.0, lo que significa que aún hay mucho espacio para mejoras y nuevas funcionalidades. ¡Toda retroalimentación, informes de errores y contribuciones son bienvenidos\!
 
 Si deseas contribuir:
 

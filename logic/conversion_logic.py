@@ -1,679 +1,508 @@
-# @file conversion_logic.py
-# @brief Logica principal de la conversion, realiza los calculos necesarios
-# @author Alejandro Cortés
-# @version 0.7
+"""
+conversion_logic.py
 
-#region Importaciones
-from colorama import Fore, Style, init
+Contiene funciones para convertir valores entre diferentes unidades de medida.
+Realiza los cálculos necesarios para convertir entre diferentes sistemas de conversión
+
+Autor: Alejandro Cortés
+Versión: 1.0
+"""
+
+
+# ────────────────────── IMPORTACIONES ──────────────────────
 from math import pi
-#endregion
 
-#region --------------------Variables e Inicializaciones--------------------
-init(autoreset=True) #Inicializar colorama
-BOLD = Style.BRIGHT #Atajo para negritas
+from colorama import Fore, Style, init
 
-#endregion
 
-# -------------------------Funciones de Conversion-------------------------
+# ────────────────────── VARIABLES GLOBALES / CONFIGURACION ──────────────────────
+init(autoreset=True)    # Inicializa Colorama con autoreset en cada impresión
+BOLD = Style.BRIGHT     # Atajo para aplicar estilo de negritas
 
-def convert_temperature(value:float, from_unit:str, to_unit:str) -> float:
-    #region Convert to celsius
-    if from_unit == "celsius":
-        value_in_celsius = value
-    elif from_unit == "kelvin":
-        value_in_celsius = value - 273.15
-    elif from_unit == "farenheit":
-        value_in_celsius = (value - 32) * 5/9
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de entrada invalida: '{from_unit}'.{Style.RESET_ALL}")
-    #endregion
+
+# ────────────────────── FUNCIONES DE CONVERSIÓN ──────────────────────
+def convert_temperature(value: float, from_unit: str, to_unit: str) -> float:
+    """
+    Convierte un valor de temperatura entre Celsius, Kelvin y Fahrenheit.
+
+    Args:
+        value:  El valor numérico a convertir.
+        from_unit: Unidad de origen ('celsius', 'kelvin', 'fahrenheit').
+        to_unit: Unidad de destino ('celsius', 'kelvin', 'fahrenheit').
+
+    Returns:
+        Valor convertido como float.
+
+    Raises:
+        ValueError: Si las unidades proporcionadas no son válidas.
+    """
+
+    to_celsius = {
+        "celsius": lambda x:x,
+        "kelvin": lambda x: x - 273.15,
+        "fahrenheit": lambda x: (x - 32) * 5 / 9
+    }
+    from_celsius = {
+        "celsius": lambda x: x,
+        "kelvin": lambda x: x + 273.15,
+        "fahrenheit": lambda x: x * 9 / 5 + 32
+    }
+
+    try:
+        value_in_celsius = to_celsius[from_unit](value)
+        return from_celsius[to_unit](value_in_celsius)
+    except KeyError as e:
+        raise ValueError(f"{Fore.MAGENTA}Unidad inválida: {e}.{Style.RESET_ALL}") from e
+
+def convert_length(value: float, from_unit: str, to_unit: str) -> float:
+    """
+    Convierte un valor de longitud entre diversas unidades métricas, imperiales y astronómicas.
     
-    #region Convert from celsius
-    if to_unit == "celsius":
-        return value_in_celsius
-    elif to_unit == "kelvin":
-        return value_in_celsius + 273.15
-    elif to_unit == "farenheit":
-        return (value_in_celsius * (9/5)) + 32
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de salida invalida: '{to_unit}'.{Style.RESET_ALL}")
-    #endregion
-
-def convert_length(value:float, from_unit:str, to_unit:str) -> float:
-    #region Convert to meters
-    if from_unit == "angstroms":
-        value_in_meters = value / 1e10
-    elif from_unit == "nanometros":
-        value_in_meters = value / 1e9
-    elif from_unit == "micrones":
-        value_in_meters = value / 1e6
-    elif from_unit == "milimetros":
-        value_in_meters = value / 1000
-    elif from_unit == "centimetros":
-        value_in_meters = value / 100
-    elif from_unit == "metros":
-        value_in_meters = value 
-    elif from_unit == "kilometros":
-        value_in_meters = value * 1e3
-    elif from_unit == "pulgadas":
-        value_in_meters = value / 39.3701
-    elif from_unit == "pies":
-        value_in_meters = value / 3.28084 
-    elif from_unit == "yardas":
-        value_in_meters = value / 1.09361 
-    elif from_unit == "millas":
-        value_in_meters = value * 1609.34
-    elif from_unit == "millas_nauticas":
-        value_in_meters = value * 1852
-    elif from_unit == "anio_luz":
-        value_in_meters = value * 9.461e15
-    elif from_unit == "unidad_astronomica":
-        value_in_meters = value * 1.495978707e21
-    elif from_unit == "parsec":
-        value_in_meters = value * 3.086e16
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de entrada invalida: '{from_unit}'.{Style.RESET_ALL}")
-    #endregion
+    Admite valores en angstroms, nanometros, micrones, milimetros, centimetros,
+    metros, kilometros, pulgadas, pies, yardas, millas, millas nauticas,
+    unidad astronomica, año luz, parsec.
     
-    #region Convert from meters
-    if to_unit == "angstroms":
-        return value_in_meters * 1e10
-    elif to_unit == "nanometros":
-        return value_in_meters * 1e9
-    elif to_unit == "micrones":
-        return value_in_meters * 1e6
-    elif to_unit == "milimetros":
-        return value_in_meters * 1000
-    elif to_unit == "centimetros":
-        return value_in_meters * 100
-    elif to_unit == "metros":
-        return value_in_meters
-    elif to_unit == "kilometros":
-        return value_in_meters / 1e3
-    elif to_unit == "pulgadas":
-        return value_in_meters * 39.3701
-    elif to_unit == "pies":
-        return value_in_meters * 3.28084 
-    elif to_unit == "yardas":
-        return value_in_meters * 1.09361 
-    elif to_unit == "millas":
-        return value_in_meters / 1609.34
-    elif to_unit == "millas_nauticas":
-        return value_in_meters / 1852
-    elif to_unit == "unidad_astronomica":
-        return value_in_meters / 1.495978707e11
-    elif to_unit == "anio_luz":
-        return value_in_meters / 9.461e15
-    elif to_unit == "parsec":
-        return value_in_meters / 3.086e16
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de salida invalida: '{to_unit}'.{Style.RESET_ALL}")
-    #endregion
+    Args:
+        value: Valor numérico a convertir.
+        from_unit: Unidad de origen.
+        to_unit: Unidad de destino.
 
-def convert_mass(value:float, from_unit:str, to_unit:str) -> float:
-    #region Convert to grams
-    if from_unit == "miligramos":
-        value_in_grams = value / 1000
-    elif from_unit == "centigramos":
-        value_in_grams = value / 100
-    elif from_unit == "decigramos":
-        value_in_grams = value / 10
-    elif from_unit == "quilates":
-        value_in_grams = value / 5
-    elif from_unit == "gramos":
-        value_in_grams = value
-    elif from_unit == "decagramos":
-        value_in_grams = value * 10
-    elif from_unit == "hectogramos":
-        value_in_grams = value * 100
-    elif from_unit == "kilogramos":
-        value_in_grams = value * 1000
-    elif from_unit == "toneladas_metricas":
-        value_in_grams = value * 1e6
-    elif from_unit == "onzas":
-        value_in_grams = value * 28.3495
-    elif from_unit == "libras":
-        value_in_grams = value * 453.592
-    elif from_unit == "piedra":
-        value_in_grams = value * 6350.29
-    elif from_unit == "toneladas_cortas_eeuu":
-        value_in_grams = value * 907185
-    elif from_unit == "toneladas_largas_uk":
-        value_in_grams = value * 10160000
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de entrada invalida: '{from_unit}'.{Style.RESET_ALL}")
-    #endregion
+    Returns:
+        Valor convertido como float.
 
-    #region Convert from grams
-    if to_unit == "miligramos":
-        return value_in_grams * 1000
-    elif to_unit == "centigramos":
-        return value_in_grams * 100
-    elif to_unit == "decigramos":
-        return value_in_grams * 10
-    elif to_unit == "quilates":
-        return value_in_grams * 5
-    elif to_unit == "gramos":
-        return value_in_grams 
-    elif to_unit == "decagramos":
-        return value_in_grams / 10
-    elif to_unit == "hectogramos":
-        return value_in_grams / 100
-    elif to_unit == "kilogramos":
-        return value_in_grams / 1000
-    elif to_unit == "toneladas_metricas":
-        return value_in_grams / 1e6
-    elif to_unit == "onzas":
-        return value_in_grams / 28.3495
-    elif to_unit == "libras":
-        return value_in_grams / 453.592
-    elif to_unit == "piedra":
-        return value_in_grams / 6350.29
-    elif to_unit == "toneladas_cortas_eeuu":
-        return value_in_grams / 907185
-    elif to_unit == "toneladas_largas_uk":
-        return value_in_grams / 10160000  
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de salida invalida: '{to_unit}'.{Style.RESET_ALL}")
-    #endregion
+    Raises:
+        ValueError: Si las unidades proporcionadas no son válidas.
+    """
 
-def convert_volume(value:float, from_unit:str, to_unit:str) -> float:
-    #region Convert to milliliters
-    if from_unit == "mililitros":
-        value_in_milliliters = value
-    elif from_unit == "centimetros_cubicos":
-        value_in_milliliters = value
-    elif from_unit == "litros":
-        value_in_milliliters = value * 1e3
-    elif from_unit == "metros_cubicos":
-        value_in_milliliters = value * 1e6
-    elif from_unit == "cucharaditas_us":
-        value_in_milliliters = value * 4.92892
-    elif from_unit == "cucharadas_us":
-        value_in_milliliters = value * 14.7868
-    elif from_unit == "onzas_liquidas_us":
-        value_in_milliliters = value * 29.5735
-    elif from_unit == "tazas_us":
-        value_in_milliliters = value * 236.588
-    elif from_unit == "pintas_us":
-        value_in_milliliters = value * 473.176
-    elif from_unit == "cuartos_de_galon_us":
-        value_in_milliliters = value * 946.353
-    elif from_unit == "galones_us":
-        value_in_milliliters = value * 3785.41
-    elif from_unit == "pulgadas_cubicas":
-        value_in_milliliters = value * 16.3871
-    elif from_unit == "pies_cubicos":
-        value_in_milliliters = value * 28316.8
-    elif from_unit == "yardas_cubicas":
-        value_in_milliliters = value * 764555
-    elif from_unit == "cucharaditas_uk":
-        value_in_milliliters = value * 5.91939
-    elif from_unit == "cucharadas_uk":
-        value_in_milliliters = value * 17.7582
-    elif from_unit == "onzas_liquidas_uk":
-        value_in_milliliters = value * 28.4131
-    elif from_unit == "pintas_uk":
-        value_in_milliliters = value * 568.261
-    elif from_unit == "cuartos_de_galon_uk":
-        value_in_milliliters = value * 1136.52
-    elif from_unit == "galones_uk":
-        value_in_milliliters = value * 4546.09
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de entrada invalida: '{from_unit}'.{Style.RESET_ALL}")
-    #endregion
+    to_meters = {
+        "angstroms": 1e-10,
+        "nanometros": 1e-9,
+        "micrones": 1e-6,
+        "milimetros": 1e-3,
+        "centimetros": 1e-2,
+        "metros": 1.0,
+        "kilometros": 1e3,
+        "pulgadas": 0.0254,
+        "pies": 0.3048,
+        "yardas": 0.9144,
+        "millas": 1609.344,
+        "millas_nauticas": 1852,
+        "unidad_astronomica": 1.495978707e11,
+        "anio_luz": 9.461e15,
+        "parsec": 3.086e16
+    }
+    from_meters = {unit: 1 / factor for unit, factor in to_meters.items()}
 
-    #region Convert from milliliters
-    if to_unit == "mililitros":
-        return value_in_milliliters 
-    elif to_unit == "centimetros_cubicos":
-        return value_in_milliliters 
-    elif to_unit == "litros":
-        return value_in_milliliters / 1e3
-    elif to_unit == "metros_cubicos":
-        return value_in_milliliters / 1e6
-    elif to_unit == "cucharaditas_us":
-        return value_in_milliliters / 4.92892
-    elif to_unit == "cucharadas_us":
-        return value_in_milliliters / 14.7868
-    elif to_unit == "onzas_liquidas_us":
-        return value_in_milliliters / 29.5735
-    elif to_unit == "tazas_us":
-        return value_in_milliliters / 236.588
-    elif to_unit == "pintas_us":
-        return value_in_milliliters / 473.176
-    elif to_unit == "cuartos_de_galon_us":
-        return value_in_milliliters / 946.353
-    elif to_unit == "galones_us":
-        return value_in_milliliters / 3785.41
-    elif to_unit == "pulgadas_cubicas":
-        return value_in_milliliters / 16.3871
-    elif to_unit == "pies_cubicos":
-        return value_in_milliliters / 28316.8
-    elif to_unit == "yardas_cubicas":
-        return value_in_milliliters / 764555
-    elif to_unit == "cucharaditas_uk":
-        return value_in_milliliters / 5.91939
-    elif to_unit == "cucharadas_uk":
-        return value_in_milliliters / 17.7582
-    elif to_unit == "onzas_liquidas_uk":
-        return value_in_milliliters / 28.4131
-    elif to_unit == "pintas_uk":
-        return value_in_milliliters / 568.261
-    elif to_unit == "cuartos_de_galon_uk":
-        return value_in_milliliters / 1136.52
-    elif to_unit == "galones_uk":
-        return value_in_milliliters / 4546.09
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de salida invalida: '{to_unit}'.{Style.RESET_ALL}")
-    #endregion
+    try:
+        value_in_meters = value * to_meters[from_unit]
+        return value_in_meters * from_meters[to_unit]
+    except KeyError as e:
+        raise ValueError(f"{Fore.MAGENTA}Unidad invalida: {e}.") from e
 
-def convert_energy(value:float, from_unit:str, to_unit:str) -> float:
-    #region Convert from
-    if from_unit == "joules":
-        value_in_joules = value
-    elif from_unit == "kilojulios":
-        value_in_joules = value * 1000
-    elif from_unit == "calorias_termales":
-        value_in_joules = value * 4.184
-    elif from_unit == "calorias_alimentos":
-        value_in_joules = value * 4184
-    elif from_unit == "pie_libras":
-        value_in_joules = value * 1.35582
-    elif from_unit == "unidades_termicas_britanicas":
-        value_in_joules = value * 1055.06
-    elif from_unit == "kilovatio_horas":
-        value_in_joules = value * 3.6e6
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de entrada invalida: '{from_unit}'.{Style.RESET_ALL}")
-    #endregion
+def convert_mass(value: float, from_unit: str, to_unit: str) -> float:
+    """
+    Convierte un valor de masa entre diversas unidades.
 
-    #region Convert from joules
-    if to_unit == "joules":
-        return value_in_joules
-    elif to_unit == "kilojulios":
-        return value_in_joules / 1000
-    elif to_unit == "calorias_termales":
-        return value_in_joules / 4.184
-    elif to_unit == "calorias_alimentos":
-        return value_in_joules / 4184
-    elif to_unit == "pie_libras":
-        return value_in_joules / 1.35582
-    elif to_unit == "unidades_termicas_britanicas":
-        return value_in_joules / 1055.06
-    elif to_unit == "kilovatio_horas":
-        return value_in_joules / 3.6e6
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de salida invalida: '{to_unit}'.{Style.RESET_ALL}")
-    #endregion
+    Admite valores en miligramos, centigramos, decigramos, quilates, gramos, decagramos,
+    hectogramos, kilogramos, toneladas metricas, onzas, libras, piedra,
+    toneladas cortas eeuu, toneladas largas uk.
 
-def convert_area(value:float, from_unit:str, to_unit:str) -> float:
-    #region Convert to square millimeters
-    if from_unit == "milimetros_cuadrados":
-        value_in_square_millimeters = value
-    elif from_unit == "centimetros_cuadrados":
-        value_in_square_millimeters = value * 100
-    elif from_unit == "metros_cuadrados":
-        value_in_square_millimeters = value * 1e6
-    elif from_unit == "hectareas":
-        value_in_square_millimeters = value * 1e10
-    elif from_unit == "kilometros_cuadrados":
-        value_in_square_millimeters = value * 1e12
-    elif from_unit == "pulgadas_cuadradas":
-        value_in_square_millimeters = value * 645.16
-    elif from_unit == "pies_cuadrados":
-        value_in_square_millimeters = value * 92903
-    elif from_unit == "yardas_cuadradas":
-        value_in_square_millimeters = value * 836127
-    elif from_unit == "acres":
-        value_in_square_millimeters = value * 4046856422.4
-    elif from_unit == "millas_cuadradas":
-        value_in_square_millimeters = value * 2589988110336
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de entrada invalida: '{from_unit}'.{Style.RESET_ALL}")
-    #endregion
+    Args:
+        value: Valor numérico a convertir.
+        from_unit: Unidad de origen.
+        to_unit: Unidad de destino.
 
-    #region Convert from square millimeters
-    if to_unit == "milimetros_cuadrados":
-        return value_in_square_millimeters
-    elif to_unit == "centimetros_cuadrados":
-        return value_in_square_millimeters / 100
-    elif to_unit == "metros_cuadrados":
-        return value_in_square_millimeters / 1e6
-    elif to_unit == "hectareas":
-        return value_in_square_millimeters / 1e10
-    elif to_unit == "kilometros_cuadrados":
-        return value_in_square_millimeters / 1e12
-    elif to_unit == "pulgadas_cuadradas":
-        return value_in_square_millimeters / 645.16
-    elif to_unit == "pies_cuadrados":
-        return value_in_square_millimeters / 92903
-    elif to_unit == "yardas_cuadradas":
-        return value_in_square_millimeters / 836127
-    elif to_unit == "acres":
-        return value_in_square_millimeters / 4046856422.4
-    elif to_unit == "millas_cuadradas":
-        return value_in_square_millimeters / 2589988110336
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de salida invalida: '{to_unit}'.{Style.RESET_ALL}")
+    Returns:
+        Valor convertido como float.
 
-def convert_speed(value:float, from_unit:str, to_unit:str) -> float:
-    #region Convert to centimeters per second
-    if from_unit == "centimetros_por_segundo":
-        value_in_centimeter_per_second = value
-    elif from_unit == "metros_por_segundo":
-        value_in_centimeter_per_second = value * 100
-    elif from_unit == "kilometros_por_hora":
-        value_in_centimeter_per_second = value / 0.036
-    elif from_unit == "pies_por_segundo":
-        value_in_centimeter_per_second = value * 30.48
-    elif from_unit == "millas_por_hora":
-        value_in_centimeter_per_second = value * 44.706
-    elif from_unit == "nudos":
-        value_in_centimeter_per_second = value * 51.4444
-    elif from_unit == "mach":
-        value_in_centimeter_per_second = value * 34029
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de entrada invalida: '{from_unit}'.{Style.RESET_ALL}")
-    #endregion
+    Raises:
+        ValueError: Si las unidades proporcionadas no son válidas.
+    """
 
-    #region Convert from centimeters per second
-    if to_unit == "centimetros_por_segundo":
-        return value_in_centimeter_per_second
-    elif to_unit == "metros_por_segundo":
-        return value_in_centimeter_per_second / 100
-    elif to_unit == "kilometros_por_hora":
-        return value_in_centimeter_per_second * 0.036
-    elif to_unit == "pies_por_segundo":
-        return value_in_centimeter_per_second / 30.48
-    elif to_unit == "millas_por_hora":
-        return value_in_centimeter_per_second / 44.706
-    elif to_unit == "nudos":
-        return value_in_centimeter_per_second / 51.4444
-    elif to_unit == "mach":
-        return value_in_centimeter_per_second / 34029
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de salida invalida: '{to_unit}'.{Style.RESET_ALL}")
+    to_grams = {
+        "miligramos": 1e-3,
+        "centigramos": 1e-2,
+        "decigramos": 1e-1,
+        "quilates": 0.2,
+        "gramos": 1.0,
+        "decagramos": 1e1,
+        "hectogramos": 1e2,
+        "kilogramos": 1e3,
+        "toneladas_metricas": 1e6,
+        "onzas": 28.3495,
+        "libras": 453.592,
+        "piedra": 6350.29,
+        "toneladas_cortas_eeuu": 907185,
+        "toneladas_largas_uk": 10160000
+    }
+    from_grams = {unit: 1 / factor for unit, factor in to_grams.items()}
 
-def convert_time(value:float, from_unit:str, to_unit:str) -> float:
-    #region Convert to microseconds
-    if from_unit == "microsegundos":
-        value_in_microseconds = value
-    elif from_unit == "milisegundos":
-        value_in_microseconds = value * 1000
-    elif from_unit == "segundos":
-        value_in_microseconds = value * 1e6
-    elif from_unit == "minutos":
-        value_in_microseconds = value * 6e7
-    elif from_unit == "horas":
-        value_in_microseconds = value * 3.6e9
-    elif from_unit == "dias":
-        value_in_microseconds = value * 8.64e10
-    elif from_unit == "semanas":
-        value_in_microseconds = value * 6.048e11
-    elif from_unit == "años":
-        value_in_microseconds = value * 3.1536e13
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de entrada invalida: '{from_unit}'.{Style.RESET_ALL}")
-    #endregion
+    try:
+        value_in_grams = value * to_grams[from_unit]
+        return value_in_grams * from_grams[to_unit]
+    except KeyError as e:
+        raise ValueError(f"{Fore.MAGENTA}Unidad invalida: {e}.") from e
 
-    #region Convert from microseconds
-    if to_unit == "microsegundos":
-        return value_in_microseconds
-    elif to_unit == "milisegundos":
-        return value_in_microseconds / 1000
-    elif to_unit == "segundos":
-        return value_in_microseconds / 1e6
-    elif to_unit == "minutos":
-        return value_in_microseconds / 6e7
-    elif to_unit == "horas":
-        return value_in_microseconds / 3.6e9
-    elif to_unit == "dias":
-        return value_in_microseconds / 8.64e10
-    elif to_unit == "semanas":
-        return value_in_microseconds / 6.048e11
-    elif to_unit == "años":
-        return value_in_microseconds / 3.1536e13
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de salida invalida: '{to_unit}'.{Style.RESET_ALL}")
-    #endregion
+def convert_volume(value: float, from_unit: str, to_unit: str) -> float:
+    """
+    Convierte un valor de volumen entre diversas unidades.
 
-def convert_power(value:float, from_unit:str, to_unit:str) -> float:
-    #region Convert from
-    if from_unit == "vatios":
-        value_in_watts = value 
-    elif from_unit == "kilovatios":
-        value_in_watts = value * 1000
-    elif from_unit == "caballos_de_fuerza_eeuu":
-        value_in_watts = value * 745.7
-    elif from_unit == "pie_libras_por_minuto":
-        value_in_watts = value / 44.2537
-    elif from_unit == "unidades_termicas_britanicas_por_minuto":
-        value_in_watts = value / 0.056869
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de entrada invalida: '{from_unit}'.{Style.RESET_ALL}")
-    #endregion
+    Admite valores en mililitros, centimetros cubicos, litros, metros cubicos, cucharaditas us,
+    cucharadas us, onzas liquidas us, tazas us, pintas us, cuartos de galon us, galones us,
+    pulgadas cubicas, pies cubicos, yardas cubicas, cucharaditas uk, cucharadas uk,
+    onzas liquidas uk, pintas uk, cuartos de galon uk, galones uk.
+    
+    Args:
+        value: Valor numérico a convertir.
+        from_unit: Unidad de origen.
+        to_unit: Unidad de destino.
 
-    #region Convert to
-    if to_unit == "vatios":
-        return value_in_watts
-    elif to_unit == "kilovatios":
-        return value_in_watts / 1000
-    elif to_unit == "caballos_de_fuerza_eeuu":
-        return value_in_watts / 745.7
-    elif to_unit == "pie_libras_por_minuto":
-        return value_in_watts * 44.2537
-    elif to_unit == "unidades_termicas_britanicas_por_minuto":
-        return value_in_watts * 0.056869
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de salida invalida: '{to_unit}'.{Style.RESET_ALL}")
-    #endregion
+    Returns:
+        Valor convertido como float.
 
-def convert_angle(value:float, from_unit:str, to_unit:str) -> float:
-    #region Convert to grades
-    if from_unit == "grados":
-        value_in_grades = value
-    elif from_unit == "radianes":
-        value_in_grades = value / (pi / 180)
-    elif from_unit == "grados_centesimales":
-        value_in_grades = value / (200 / 180)
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de entrada invalida: '{from_unit}'.{Style.RESET_ALL}")
-    #endregion
+    Raises:
+        ValueError: Si las unidades proporcionadas no son válidas.
+    """
 
-    #region Convert from grades
-    if to_unit == "grados":
-        return value_in_grades
-    elif to_unit == "radianes":
-        return value_in_grades * (pi / 180)
-    elif to_unit == "grados_centesimales":
-        return value_in_grades * (200 / 180)
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de salida invalida: '{to_unit}'.{Style.RESET_ALL}")
-    #endregion
+    to_milliliters= {
+        "mililitros" : 1.0,
+        "centimetros_cubicos" : 1.0,
+        "litros" : 1e3,
+        "metros_cubicos" : 1e6,
+        "cucharaditas_us" : 4.92892,
+        "cucharadas_us" : 14.7868,
+        "onzas_liquidas_us" : 29.5735,
+        "tazas_us" : 236.588,
+        "pintas_us" : 473.176,
+        "cuartos_de_galon_us" : 946.353,
+        "galones_us" : 3785.41,
+        "pulgadas_cubicas" : 16.3871,
+        "pies_cubicos" : 28316.8,
+        "yardas_cubicas" : 764555,
+        "cucharaditas_uk" : 5.91939,
+        "cucharadas_uk" : 17.7582,
+        "onzas_liquidas_uk" : 28.4131,
+        "pintas_uk" : 568.261,
+        "cuartos_de_galon_uk" : 1136.52,
+        "galones_uk" : 4546.09,
+    }
+    from_milliliters = {unit: 1 / factor for unit, factor in to_milliliters.items()}
 
-def convert_pressure(value:float, from_unit:str, to_unit:str) -> float:
-    #region Convert to atmospheres
-    if from_unit == "atmosferas":
-        value_in_atmospheres = value
-    elif from_unit == "bares":
-        value_in_atmospheres = value / 1.01325
-    elif from_unit == "kilopascales":
-        value_in_atmospheres = value / 101.325
-    elif from_unit == "milimetros_de_mercurio":
-        value_in_atmospheres = value / 760
-    elif from_unit == "pascales":
-        value_in_atmospheres = value / 101325
-    elif from_unit == "libras_por_pulgada_cuadrada":
-        value_in_atmospheres = value / 14.6959
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de entrada invalida: '{from_unit}'.{Style.RESET_ALL}")
-    #endregion
+    try:
+        value_in_milliliters = value * to_milliliters[from_unit]
+        return value_in_milliliters * from_milliliters[to_unit]
+    except KeyError as e:
+        raise ValueError(f"{Fore.MAGENTA}Unidad invalida: {e}.") from e
 
-    #region Convert from atmospheres
-    if to_unit == "atmosferas":
-        return value_in_atmospheres
-    elif to_unit == "bares":
-        return value_in_atmospheres * 1.01325
-    elif to_unit == "kilopascales":
-        return value_in_atmospheres * 101.325
-    elif to_unit == "milimetros_de_mercurio":
-        return value_in_atmospheres * 760
-    elif to_unit == "pascales":
-        return value_in_atmospheres * 101325
-    elif to_unit == "libras_por_pulgada_cuadrada":
-        return value_in_atmospheres * 14.6959
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de salida invalida: '{to_unit}'.{Style.RESET_ALL}")
-    #endregion
+def convert_energy(value: float, from_unit: str, to_unit: str) -> float:
+    """
+    Convierte un valor de energía entre diferentes unidades.
+    
+    Admite valores en julios, kilojulios, calorias termales, calorias alimentos,
+    pie-libras, unidades termicas britanicas, kilovatio-horas.
 
-def convert_data(value:float, from_unit:str, to_unit:str) -> float:
-    #region Convert to bits
-    if from_unit == "bits":
-        value_in_bits = value
-    elif from_unit == "cuarteto":
-        value_in_bits = value * 4
-    elif from_unit == "bytes":
-        value_in_bits = value * 8
-    elif from_unit == "kilobits":
-        value_in_bits = value * 1000
-    elif from_unit == "kibibits":
-        value_in_bits = value * 1024
-    elif from_unit == "kilobytes":
-        value_in_bits = value * 8000
-    elif from_unit == "kibibytes":
-        value_in_bits = value * 8192
-    elif from_unit == "megabits":
-        value_in_bits = value * 1e6
-    elif from_unit == "mebibits":
-        value_in_bits = value * 1_048_576
-    elif from_unit == "megabytes":
-        value_in_bits = value * 8e6
-    elif from_unit == "mebibytes":
-        value_in_bits = value * 8_388_608
-    elif from_unit == "gigabits":
-        value_in_bits = value * 1e9
-    elif from_unit == "gibibits":
-        value_in_bits = value * 1_073_741_824
-    elif from_unit == "gigabytes":
-        value_in_bits = value * 8e9
-    elif from_unit == "gibibytes":
-        value_in_bits = value * 8_589_934_592
-    elif from_unit == "terabits":
-        value_in_bits = value * 1e12
-    elif from_unit == "tebibits":
-        value_in_bits = value * 1_099_511_627_776
-    elif from_unit == "terabytes":
-        value_in_bits = value * 8e12
-    elif from_unit == "tebibytes":
-        value_in_bits = value * 8_796_093_208_022
-    elif from_unit == "petabits":
-        value_in_bits = value * 1e15
-    elif from_unit == "pebibits":
-        value_in_bits = value * 1_125_899_906_842_624
-    elif from_unit == "petabytes":
-        value_in_bits = value * 8e15
-    elif from_unit == "pebibytes":
-        value_in_bits = value * 9_007_199_254_740_992
-    elif from_unit == "exabits":
-        value_in_bits = value * 1e18
-    elif from_unit == "exbibits":
-        value_in_bits = value * 1_152_921_504_606_846_976
-    elif from_unit == "exabytes":
-        value_in_bits = value * 8e18
-    elif from_unit == "exbibytes":
-        value_in_bits = value * 9_223_372_036_854_775_808
-    elif from_unit == "zettabits":
-        value_in_bits = value * 1e21
-    elif from_unit == "zebibits":
-        value_in_bits = value * 1_180_591_620_717_411_303_424
-    elif from_unit == "zettabytes":
-        value_in_bits = value * 8e21
-    elif from_unit == "zebibytes":
-        value_in_bits = value * 9_444_732_965_732_923_457_740_000
-    elif from_unit == "yottabits":
-        value_in_bits = value * 1e24
-    elif from_unit == "yobibits":
-        value_in_bits = value * 1_208_925_819_614_629_174_706_176
-    elif from_unit == "yottabytes":
-        value_in_bits = value * 8e24
-    elif from_unit == "yobibytes":
-        value_in_bits = value * 9_671_406_556_917_033_397_649_408
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de entrada invalida: '{from_unit}'.{Style.RESET_ALL}")
-    #endregion
+    Args:
+        value: Valor numérico a convertir.
+        from_unit: Unidad de origen (en minúsculas y formato interno).
+        to_unit: Unidad de destino (en minúsculas y formato interno).
 
-    #region Convert from bits
-    if to_unit == "bits":
-        return value_in_bits
-    elif to_unit == "cuarteto":
-        return value_in_bits / 4
-    elif to_unit == "bytes":
-        return value_in_bits / 8
-    elif to_unit == "kilobits":
-        return value_in_bits / 1000
-    elif to_unit == "kibibits":
-        return value_in_bits / 1024
-    elif to_unit == "kilobytes":
-        return value_in_bits / 8000
-    elif to_unit == "kibibytes":
-        return value_in_bits / 8192
-    elif to_unit == "megabits":
-        return value_in_bits / 1e6
-    elif to_unit == "mebibits":
-        return value_in_bits / 1_048_576
-    elif to_unit == "megabytes":
-        return value_in_bits / 8e6
-    elif to_unit == "mebibytes":
-        return value_in_bits / 8_388_608
-    elif to_unit == "gigabits":
-        return value_in_bits / 1e9
-    elif to_unit == "gibibits":
-        return value_in_bits / 1_073_741_824
-    elif to_unit == "gigabytes":
-        return value_in_bits / 8e9
-    elif to_unit == "gibibytes":
-        return value_in_bits / 8_589_934_592
-    elif to_unit == "terabits":
-        return value_in_bits / 1e12
-    elif to_unit == "tebibits":
-        return value_in_bits / 1_099_511_627_776
-    elif to_unit == "terabytes":
-        return value_in_bits / 8e12
-    elif to_unit == "tebibytes":
-        return value_in_bits / 8_796_093_208_022
-    elif to_unit == "petabits":
-        return value_in_bits / 1e15
-    elif to_unit == "pebibits":
-        return value_in_bits / 1_125_899_906_842_624
-    elif to_unit == "petabytes":
-        return value_in_bits / 8e15
-    elif to_unit == "pebibytes":
-        return value_in_bits / 9_007_199_254_740_992
-    elif to_unit == "exabits":
-        return value_in_bits / 1e18
-    elif to_unit == "exbibits":
-        return value_in_bits / 1_152_921_504_606_846_976
-    elif to_unit == "exabytes":
-        return value_in_bits / 8e18
-    elif to_unit == "exbibytes":
-        return value_in_bits / 9_223_372_036_854_775_808
-    elif to_unit == "zettabits":
-        return value_in_bits / 1e21
-    elif to_unit == "zebibits":
-        return value_in_bits / 1_180_591_620_717_411_303_424
-    elif to_unit == "zettabytes":
-        return value_in_bits / 8e21
-    elif to_unit == "zebibytes":
-        return value_in_bits / 9_444_732_965_732_923_457_740_000
-    elif to_unit == "yottabits":
-        return value_in_bits / 1e24
-    elif to_unit == "yobibits":
-        return value_in_bits / 1_208_925_819_614_629_174_706_176
-    elif to_unit == "yottabytes":
-        return value_in_bits / 8e24
-    elif to_unit == "yobibytes":
-        return value_in_bits / 9_671_406_556_917_033_397_649_408
-    else:
-        raise ValueError(f"{Fore.MAGENTA}Unidad de salida invalida: '{to_unit}'.{Style.RESET_ALL}")
-    # endregion
+    Returns:
+        Valor convertido como float.
+
+    Raises:
+        ValueError: Si alguna de las unidades no es válida.
+    """
+
+    to_joules = {
+        "joules": 1.0,
+        "kilojulios": 1000,
+        "calorias_termales": 4.184,
+        "calorias_alimentos": 4184,
+        "pie_libras": 1.35582,
+        "unidades_termicas_britanicas": 1055.06,
+        "kilovatio_horas": 3.6e6
+    }
+    from_joules = {unit: 1 / factor for unit, factor in to_joules.items()}
+
+    try:
+        value_in_joules = value * to_joules[from_unit]
+        return value_in_joules * from_joules[to_unit]
+    except KeyError as e:
+        raise ValueError(f"{Fore.MAGENTA}Unidad invalida: {e}.") from e
+
+def convert_area(value: float, from_unit: str, to_unit: str) -> float:
+    """
+    Convierte un valor de área entre diferentes unidades.
+
+    Admite valores en .
+
+    Args:
+        value: Valor numérico a convertir.
+        from_unit: Unidad de origen (en minúsculas y formato interno).
+        to_unit: Unidad de destino (en minúsculas y formato interno).
+
+    Returns:
+        Valor convertido como float.
+
+    Raises:
+        ValueError: Si alguna de las unidades no es válida.
+    """
+
+    to_square_millimeters = {
+        "milimetros_cuadrados": 1.0,
+        "centimetros_cuadrados": 100,
+        "metros_cuadrados": 1e6,
+        "hectareas": 1e10,
+        "kilometros_cuadrados": 1e12,
+        "pulgadas_cuadradas": 645.16,
+        "pies_cuadrados": 92903,
+        "yardas_cuadradas": 836127,
+        "acres": 4046856422.4,
+        "millas_cuadradas": 2589988110336,
+    }
+    from_square_millimeters = {unit: 1 / factor for unit, factor in to_square_millimeters.items()}
+
+    try:
+        value_in_square_millimeters = value * to_square_millimeters[from_unit]
+        return value_in_square_millimeters * from_square_millimeters[to_unit]
+    except KeyError as e:
+        raise ValueError(f"{Fore.MAGENTA}Unidad invalida: {e}.") from e
+
+def convert_speed(value: float, from_unit: str, to_unit: str) -> float:
+    """
+    Convierte un valor de velocidad entre diferentes unidades.
+
+    Admite valores en centimetros_por_segundo, metros_por_segundo, kilometros_por_hora,
+    pies_por_segundo, millas_por_hora, nudos, mach.
+
+    Args:
+        value: Valor numérico a convertir.
+        from_unit: Unidad de origen (en minúsculas y formato interno).
+        to_unit: Unidad de destino (en minúsculas y formato interno).
+
+    Returns:
+        Valor convertido como float.
+
+    Raises:
+        ValueError: Si alguna de las unidades no es válida.
+    """
+
+    to_cm_per_second = {
+        "centimetros_por_segundo": 1.0,
+        "metros_por_segundo": 100,
+        "kilometros_por_hora": 1000.0 / 36.0,
+        "pies_por_segundo": 30.48,
+        "millas_por_hora": 44.706,
+        "nudos": 51.4444,
+        "mach": 34029
+    }
+    from_cm_per_second = {unit: 1 / factor for unit, factor in to_cm_per_second.items()}
+
+    try:
+        value_in_cm_per_second = value * to_cm_per_second[from_unit]
+        return value_in_cm_per_second * from_cm_per_second[to_unit]
+    except KeyError as e:
+        raise ValueError(f"{Fore.MAGENTA}Unidad invalida: {e}.") from e
+
+def convert_time(value: float, from_unit: str, to_unit: str) -> float:
+    """
+    Convierte un valor de tiempo entre diferentes unidades.
+
+    Admite valores en microsegundos, milisegundos, segundos, minutos, horas, dias, semanas, años.
+
+    Args:
+        value: Valor numérico a convertir.
+        from_unit: Unidad de origen (en minúsculas y formato interno).
+        to_unit: Unidad de destino (en minúsculas y formato interno).
+
+    Returns:
+        Valor convertido como float.
+
+    Raises:
+        ValueError: Si alguna de las unidades no es válida.
+    """
+
+    to_microseconds = {
+        "microsegundos": 1.0,
+        "milisegundos": 1000,
+        "segundos": 1e6,
+        "minutos": 6e7,
+        "horas": 3.6e9,
+        "dias": 8.64e10,
+        "semanas": 6.048e11,
+        "años": 3.1536e13,
+    }
+    from_microseconds = {unit: 1 / factor for unit, factor in to_microseconds.items()}
+
+    try:
+        value_in_microseconds = value * to_microseconds[from_unit]
+        return value_in_microseconds * from_microseconds[to_unit]
+    except KeyError as e:
+        raise ValueError(f"{Fore.MAGENTA}Unidad invalida: {e}.") from e
+
+def convert_power(value: float, from_unit: str, to_unit: str) -> float:
+    """
+    Convierte un valor de potencia entre diferentes unidades.
+
+    Admite unidades como vatios, kilovatios, caballos de fuerza eeuu,
+    pie libras por minuto, unidades termicas britanicas por minuto.
+
+    Args:
+        value: Valor numérico a convertir.
+        from_unit: Unidad de origen (en minúsculas y formato interno).
+        to_unit: Unidad de destino (en minúsculas y formato interno).
+
+    Returns:
+        Valor convertido como float.
+
+    Raises:
+        ValueError: Si alguna de las unidades no es válida.
+    """
+
+    to_watts= {
+        "vatios": 1.0,
+        "kilovatios": 1e3,
+        "caballos_de_fuerza_eeuu": 745.7,
+        "pie_libras_por_minuto": 0.02259698059,
+        "unidades_termicas_britanicas_por_minuto": 17.58427263,
+    }
+    from_watts = {unit: 1 / factor for unit, factor in to_watts.items()}
+
+    try:
+        value_in_watts = value * to_watts[from_unit]
+        return value_in_watts * from_watts[to_unit]
+    except KeyError as e:
+        raise ValueError(f"{Fore.MAGENTA}Unidad invalida: {e}.") from e
+
+def convert_angle(value: float, from_unit: str, to_unit: str) -> float:
+    """
+    Convierte un valor de ángulo entre diferentes unidades.
+
+    Admite unidades como grados, radianes y gradians.
+
+    Args:
+        value: Valor numérico a convertir.
+        from_unit: Unidad de origen (en minúsculas y formato interno).
+        to_unit: Unidad de destino (en minúsculas y formato interno).
+
+    Returns:
+        Valor convertido como float.
+
+    Raises:
+        ValueError: Si alguna de las unidades no es válida.
+    """
+
+    to_grades = {
+        "grados": value,
+        "radianes":180 / pi,
+        "grados_centesimales": 0.9,
+    }
+    from_grades = {unit: 1 / factor for unit, factor in to_grades.items()}
+
+    try:
+        value_in_grades = value * to_grades[from_unit]
+        return value_in_grades * from_grades[to_unit]
+    except KeyError as e:
+        raise ValueError(f"{Fore.MAGENTA}Unidad invalida: {e}.") from e
+
+def convert_pressure(value: float, from_unit: str, to_unit: str) -> float:
+    """
+    Convierte un valor de presión entre diferentes unidades.
+
+    Admite valores en atmosferas, bares, kilopascales, milimetros de mercurio,
+    pascales y libras por pulgada cuadrada.
+
+    Args:
+        value: Valor numérico a convertir.
+        from_unit: Unidad de origen (en minúsculas y formato interno).
+        to_unit: Unidad de destino (en minúsculas y formato interno).
+
+    Returns:
+        Valor convertido como float.
+
+    Raises:
+        ValueError: Si alguna de las unidades no es válida.
+    """
+
+    to_atmospheres = {
+        "atmosferas": 1.0,
+        "bares": 0.9869232667,
+        "kilopascales": 0.009869232667,
+        "milimetros_de_mercurio": 0.001315789474,
+        "pascales": 9.869232667e-06,
+        "libras_por_pulgada_cuadrada": 0.06804618975
+    }
+    from_atmospheres = {unit: 1 / factor for unit, factor in to_atmospheres.items()}
+
+    try:
+        value_in_atmospheres = value * to_atmospheres[from_unit]
+        return value_in_atmospheres * from_atmospheres[to_unit]
+    except KeyError as e:
+        raise ValueError(f"{Fore.MAGENTA}Unidad invalida: {e}.") from e
+
+def convert_data(value: float, from_unit: str, to_unit: str) -> float:
+    """
+    Convierte un valor de almacenamiento de datos entre diferentes unidades.
+
+    Admite valores en bits, cuarteto, bytes, kilobits, kibibits, kilobytes, kibibytes,
+    megabits,     mebibits, megabytes, mebibytes, gigabits, gibibits, gigabytes, gibibytes,
+    terabits, tebibits, terabytes, tebibytes, petabits, pebibits, petabytes, pebibytes,
+    exabits, exbibits, exabytes, exbibytes, zettabits, zebibits, zettabytes, zebibytes,
+    yottabits, yobibits, yottabytes y yobibytes.
+
+    Args:
+        value: Valor numérico a convertir.
+        from_unit: Unidad de origen (en minúsculas y formato interno).
+        to_unit: Unidad de destino (en minúsculas y formato interno).
+
+    Returns:
+        Valor convertido como float.
+
+    Raises:
+        ValueError: Si alguna de las unidades no es válida.
+    """
+
+    to_bits = {
+        "bits": 1.0,
+        "cuarteto": 4,
+        "bytes": 8,
+        "kilobits": 1000,
+        "kibibits": 1024,
+        "kilobytes": 8000,
+        "kibibytes": 8192,
+        "megabits": 1e6,
+        "mebibits": 1_048_576,
+        "megabytes": 8e6,
+        "mebibytes": 8_388_608,
+        "gigabits": 1e9,
+        "gibibits": 1_073_741_824,
+        "gigabytes": 8e9,
+        "gibibytes": 8_589_934_592,
+        "terabits": 1e12,
+        "tebibits": 1_099_511_627_776,
+        "terabytes": 8e12,
+        "tebibytes": 8_796_093_208_022,
+        "petabits": 1e15,
+        "pebibits": 1_125_899_906_842_624,
+        "petabytes": 8e15,
+        "pebibytes": 9_007_199_254_740_992,
+        "exabits": 1e18,
+        "exbibits": 1_152_921_504_606_846_976,
+        "exabytes": 8e18,
+        "exbibytes": 9_223_372_036_854_775_808,
+        "zettabits": 1e21,
+        "zebibits": 1_180_591_620_717_411_303_424,
+        "zettabytes": 8e21,
+        "zebibytes": 9_444_732_965_732_923_457_740_000,
+        "yottabits": 1e24,
+        "yobibits": 1_208_925_819_614_629_174_706_176,
+        "yottabytes": 8e24,
+        "yobibytes": 9_671_406_556_917_033_397_649_408,
+    }
+    from_bits = {unit: 1 / factor for unit, factor in to_bits.items()}
+
+    try:
+        value_in_bits = value * to_bits[from_unit]
+        return value_in_bits  * from_bits[to_unit]
+    except KeyError as e:
+        raise ValueError(f"{Fore.MAGENTA}Unidad invalida: {e}.") from e
